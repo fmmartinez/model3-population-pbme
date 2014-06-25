@@ -641,34 +641,6 @@ fmt1 = '('//trim(c_nt)//'f10.5)'
 
 end subroutine get_preh
 
-subroutine iniconc()
-implicit none
-
-!integer :: i
-
-open (666,file='md.in')
-read(666,*)
-read(666,*) np,delta,nosc,ome_max
-read(666,*)
-read(666,*) nmcs,nmds,seed_dimension,dt,lumda_d
-read(666,*)
-read(666,*) eg,eb,ed,mu,e0,beta,vomega
-read(666,*)
-read(666,*) time_j,taw_j,omega_j 
-read(666,*)
-read(666,*) bath,init
-read(666,*)
-read(666,*) basispc,ng,nb,nd,cont
-close(666)
-
-!call random_seed(size=seed_dimension)
-!allocate (seed(seed_dimension))
-!do i=1,seed_dimension
-!  seed(i) = 3*2**i-1
-!enddo
-!call random_seed(put=seed)
-
-end subroutine iniconc
 
 subroutine iniconq_d()
 implicit none
