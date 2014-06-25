@@ -2,12 +2,17 @@
 import os
 import shutil
 
-nproc = 10
+#modules to load for execution in certain clusters, leave blank if none
+#following is used for jasper
+#module = 'compiler/intel/12.1'
+module = ''
+
+nproc = 200
 
 #basis functions used
-g = 1  
-b = 1  
-d = 1  
+g = 40  
+b = 40  
+d = 40  
 
 #delta
 delta = 1
@@ -16,7 +21,8 @@ delta = 1
 tpp = 5000
 
 #end of basic input variables
-##############
+#edit below if you are sure what are you doing
+#############################################################################
 
 #folder tree generation with consistent length
 if g < 10:
@@ -34,7 +40,18 @@ if d < 10:
 else:
 	dpart = str(d)
 
-gendirname = 'p' + gpart + bpart + dpart + '-' + str(nproc) + '/'
+if nproc > 9:
+	if nproc > 99:
+		if nproc > 999:
+			print "error: too many processsors will be used"
+		else:
+			cpus = str(nproc)
+	else:
+		cpus = '0' + str(nproc)
+else:
+	cpus = '00' + str(nproc)
+
+gendirname = 'p' + gpart + bpart + dpart + '-' + cpus + '/'
 
 #genenrate global folder
 if not(os.path.exists(gendirname)):
@@ -114,7 +131,7 @@ m.append('#PBS -l mem=256mb\n')
 m.append('#PBS -m bea\n')
 m.append('#PBS -M fmmartin@ualberta.ca\n')
 m.append('cd $PBS_O_WORKDIR\n')
-m.append('module load compiler/intel/12.1\n')
+m.append('module load ' + module + '\n')
 m.append('time ./a.out < md.in\n')
 
 #creating pbs files
