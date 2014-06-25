@@ -34,7 +34,7 @@ if d < 10:
 else:
 	dpart = str(d)
 
-gendirname = 'p' + gpart + bpart + dpart + '/'
+gendirname = 'p' + gpart + bpart + dpart + '-' + str(nproc) + '/'
 
 #genenrate global folder
 if not(os.path.exists(gendirname)):
@@ -48,24 +48,24 @@ if nproc > 9:
 			print "error: too many processsors will be used"
 		else:
 			for i in range(0,10):
-				name = gendirname + 'map-00' + str(i)
+				name = gendirname + 'part-00' + str(i)
 				dirs.append(name)
 			for i in range(10,100):
-				name = gendirname + 'map-0'  + str(i)
+				name = gendirname + 'part-0'  + str(i)
 				dirs.append(name)
 			for i in range(100,nproc):
-				name = gendirname + 'map-'  + str(i)
+				name = gendirname + 'part-'  + str(i)
 				dirs.append(name)
 	else:
 		for i in range(0,10):
-			name = gendirname + 'map-00' + str(i)
+			name = gendirname + 'part-00' + str(i)
 			dirs.append(name)
 		for i in range(10,nproc):
-			name = gendirname + 'map-0'  + str(i)
+			name = gendirname + 'part-0'  + str(i)
 			dirs.append(name)
 else:
 	for i in range(0,nproc):
-		name = gendirname + 'map-00'  + str(i)
+		name = gendirname + 'part-00'  + str(i)
 		dirs.append(name)
 
 #generate folders inside global folder
