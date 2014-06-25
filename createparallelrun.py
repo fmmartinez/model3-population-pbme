@@ -15,27 +15,67 @@ delta = 1
 #trajectories per processor
 tpp = 5000
 
+#end of basic input variables
+##############
+
+#folder tree generation with consistent length
+if g < 10:
+	gpart = '0' + str(g)
+else:
+	gpart = str(g)
+
+if b < 10:
+	bpart = '0' + str(b)
+else:
+	bpart = str(b)
+
+if d < 10:
+	dpart = '0' + str(d)
+else:
+	dpart = str(d)
+
+gendirname = 'p' + gpart + bpart + dpart + '/'
+
+#genenrate global folder
+if not(os.path.exists(gendirname)):
+	os.mkdir(gendirname)
+
 dirs = []
 
-l = []
-m = []
-
-if (nproc > 9):
-	for i in range(0,10):
-		name = 'map-0' + str(i)
-		dirs.append(name)
-	for i in range(10,nproc):
-		name = 'map-'  + str(i)
-		dirs.append(name)
+if nproc > 9:
+	if nproc > 99:
+		if nproc > 999:
+			print "error: too many processsors will be used"
+		else:
+			for i in range(0,10):
+				name = gendirname + 'map-00' + str(i)
+				dirs.append(name)
+			for i in range(10,100):
+				name = gendirname + 'map-0'  + str(i)
+				dirs.append(name)
+			for i in range(100,nproc):
+				name = gendirname + 'map-'  + str(i)
+				dirs.append(name)
+	else:
+		for i in range(0,10):
+			name = gendirname + 'map-00' + str(i)
+			dirs.append(name)
+		for i in range(10,nproc):
+			name = gendirname + 'map-0'  + str(i)
+			dirs.append(name)
 else:
 	for i in range(0,nproc):
-		name = 'map-'  + str(i)
+		name = gendirname + 'map-00'  + str(i)
 		dirs.append(name)
 
-#generate folders
+#generate folders inside global folder
 for i in range(0,nproc):
 	if not(os.path.exists(dirs[i])):
 			os.mkdir(dirs[i])
+
+# input files generation
+l = []
+m = []
 
 #original structure of md.in file in map00:
 l.append('Np\tDELTA\tNOSC\tOME_MAX\t\r\n')
