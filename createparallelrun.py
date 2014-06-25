@@ -2,12 +2,12 @@
 import os
 import shutil
 
-nproc = 100
+nproc = 10
 
 #basis functions used
-g = 40  
-b = 40  
-d = 40  
+g = 1  
+b = 1  
+d = 1  
 
 #delta
 delta = 1

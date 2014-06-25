@@ -12,7 +12,7 @@ m1 = 0d0
 m2 = 0d0
 m3 = 0d0
 
-do i = 1, 100
+do i = 1, 10
    write(n,'(i2)') i-1
 
    if (i <= 10) then
