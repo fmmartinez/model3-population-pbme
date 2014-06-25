@@ -1,5 +1,8 @@
 module m_map
+use ifport
 implicit none
+
+real(8),parameter :: pi=3.1415926535d0
 
 contains
 
@@ -54,7 +57,8 @@ implicit none
 
 real(8),dimension(:,:),intent(inout) :: hm
 
-integer :: nmap
+integer :: i
+integer,intent(in) :: nmap
 
 real(8) :: trace
 real(8),intent(out) :: tn
@@ -77,7 +81,7 @@ end subroutine make_hm_traceless
 subroutine get_totalenergy(nmap,hm,pm,rm,x,p,kosc,etotal)
 implicit none
 
-integer :: i,n
+integer :: i,j,n
 integer,intent(in) :: nmap
 
 real(8),intent(out) :: etotal
@@ -107,7 +111,7 @@ end subroutine get_totalenergy
 subroutine get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal)
 implicit none
 
-integer :: i,n
+integer :: i,j,n
 integer,intent(in) :: nmap
 
 real(8),intent(in) :: tn
@@ -344,7 +348,7 @@ end subroutine get_force
 subroutine get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
 implicit none
 
-integer :: a,b
+integer :: i
 integer,intent(in) :: nmap,ng,nb
 
 real(8),intent(in) :: mu,et,a1,a2
@@ -642,10 +646,15 @@ fmt1 = '('//trim(c_nt)//'f10.5)'
 end subroutine get_preh
 
 
-subroutine iniconq_d()
+subroutine iniconq_d(nosc,lumda_d,ome_max,ome,c2,kosc)
 implicit none
 
 integer :: i
+integer,intent(in) :: nosc
+
+real(8) :: check
+real(8),intent(in) :: ome_max,lumda_d
+real(8),dimension(:),intent(inout) :: ome,c2,kosc
 
 check=0
 do i=1,nosc

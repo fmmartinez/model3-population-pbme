@@ -1,8 +1,7 @@
 program popmodel3
 use ifport
+use m_map
 implicit none
-
-real(8),parameter :: pi=3.1415926535d0
 
 character(len=2) :: c_nb,c_nt
 character(len=9) :: fmt1,fmt2
@@ -35,7 +34,7 @@ allocate(lambda(1:nmap,1:nmap),llg(1:nmap,1:nmap),llb(1:nmap,1:nmap),lld(1:nmap,
 allocate(llgb(1:nmap,1:nmap),llbg(1:nmap,1:nmap))
 allocate(llbd(1:nmap,1:nmap),lldb(1:nmap,1:nmap))
 
-call iniconq_d()
+call iniconq_d(nosc,lumda_d,ome_max,ome,c2,kosc)
 
 allocate(popn(1:nmds+1,1:nmap),facn(1:nmap),popt(1:nmds+1))
 allocate(pop(1:nmds+1),pop1(1:nmds+1),pop2(1:nmds+1),pop3(1:nmds+1))
