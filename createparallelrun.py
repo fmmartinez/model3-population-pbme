@@ -2,12 +2,42 @@
 import os
 import shutil
 
+#Machine stuff
+
 #modules to load for execution in certain clusters, leave blank if none
 #following is used for jasper
 #module = 'compiler/intel/12.1'
 module = ''
 
+#TORQUE will use the following email to inform details about your jobs
+email = 'fmmartin@ualberta.ca'
+
+#number of processors to use
 nproc = 200
+
+#trajectories per processor
+tpp = 5000
+
+timestep = '5d-5'
+
+#Wall time
+walltime = '1:00:00'
+
+#Model stuff
+
+#energies
+eg = 0
+eb = 240
+ed = 240
+
+#laser thingies
+e0 = 0.9
+time = 0.15
+tau = 0.045
+omega = 260
+
+#coupled vibration frequency
+vibomega = 37.7
 
 #basis functions used
 g = 40  
@@ -16,9 +46,6 @@ d = 40
 
 #delta
 delta = 1
-
-#trajectories per processor
-tpp = 5000
 
 #end of basic input variables
 #edit below if you are sure what are you doing
@@ -94,19 +121,19 @@ for i in range(0,nproc):
 l = []
 m = []
 
-#original structure of md.in file in map00:
+#skeleton of md.in file:
 l.append('Np\tDELTA\tNOSC\tOME_MAX\t\r\n')
 l.append('1\t' + str(delta) + 'd0\t20\t50\r\n')
 l.append('NMCS\tNMDS\tseed\tDT\tLAMDA_D\r\n')
-l.append('25000\t2000\t5\t5d-5\t10d0\r\n')
+l.append('')
 l.append('Eg\tEb\tEd\tmu\tE0\tbeta\tvib_omega\r\n')
-l.append('0\t240\t240\t1\t0.9\t0.24\t37.7d0\r\n')
+l.append(str(eg) + '\t' + str(eb) + '\t' + str(ed) + '\t1\t' + str(e0) + '\t0.24\t' + str(vibomega) + '\r\n')
 l.append('TIME_J\tTAU_J\tOMEGA_J\r\n')
-l.append('0.15d0\t0.045d0\t260d0\r\n')
+l.append(str(time) + '\t' + str(tau) + '\t' + str(omega) + '\r\n')
 l.append('BATH(0:B EQ 1:T EQ)\tINIT\r\n')
 l.append('0\t3\r\n')
-l.append('basispercenter\tmapinG\tmapinB\tmapinD\tcount\r\n')
-l.append('3\t' + str(g) + '\t' + str(b)+ '\t' + str(d) + '\t0\r\n')
+l.append('mapinG\tmapinB\tmapinD\r\n')
+l.append(str(g) + '\t' + str(b)+ '\t' + str(d) + '\r\n')
 
 #creating md.in files
 for i in range(0,nproc):
@@ -114,22 +141,22 @@ for i in range(0,nproc):
 	
 	seed = i*9 + 5
 
-	l[3] = str(tpp) + '\t4000\t' + str(seed) + '\t5d-5\t10d0\r\n'
+	l[3] = str(tpp) + '\t4000\t' + str(seed) + '\t' + timestep + '\t10d0\r\n'
 
 	for j in range(0,12):
 		mdfile.write(l[j])
 
 	mdfile.close()
 
-#original structure of pbs fie
+#skeleton of pbs fie
 m.append('#!/bin/bash -l\n')
 m.append('#PBS -r n\n')
-m.append('#PBS -N pbme\n')
-m.append('#PBS -l walltime=10:00:00\n')
+m.append('')
+m.append('#PBS -l walltime=' + walltime + '\n')
 m.append('#PBS -l procs=1\n')
 m.append('#PBS -l mem=256mb\n')
-m.append('#PBS -m bea\n')
-m.append('#PBS -M fmmartin@ualberta.ca\n')
+m.append('')
+m.append('#PBS -M' + email + '\n')
 m.append('cd $PBS_O_WORKDIR\n')
 m.append('module load ' + module + '\n')
 m.append('time ./a.out < md.in\n')
