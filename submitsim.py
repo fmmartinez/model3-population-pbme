@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import shutil
+from sys import argv
 
 nproc = 10
 
