@@ -13,7 +13,7 @@ module = ''
 email = 'fmmartin@ualberta.ca'
 
 #number of processors to use
-nproc = 200
+nproc = 20
 
 #trajectories per processor
 tpp = 5000
@@ -40,7 +40,7 @@ omega = 260
 vibomega = 37.7
 
 #basis functions used
-g = 400  
+g = 40  
 b = 40  
 d = 40  
 

@@ -1,5 +1,6 @@
 all: vbmode.o mapping.o main.o
 	ifort -mkl -O2 -o a.out main.o mapping.o vbmode.o
+	rm -rf *.o *.mod
 	mv a.out ../
 
 mapping.o: mapping.f90
