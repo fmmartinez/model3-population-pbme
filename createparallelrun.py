@@ -40,7 +40,7 @@ omega = 260
 vibomega = 37.7
 
 #basis functions used
-g = 40  
+g = 400  
 b = 40  
 d = 40  
 
@@ -50,6 +50,11 @@ delta = 1
 #end of basic input variables
 #edit below if you are sure what are you doing
 #############################################################################
+
+#not treating more than 100 basis functions per center, this can change in the future
+if (g >= 100 or b >= 100 or d >= 100):
+	print "error: too many basis functions used per center"
+	quit()
 
 #folder tree generation with consistent length
 if g < 10:
