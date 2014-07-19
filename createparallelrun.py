@@ -6,14 +6,14 @@ import shutil
 
 #modules to load for execution in certain clusters, leave blank if none
 #following is used for jasper
-#module = 'compiler/intel/12.1'
-module = ''
+module = 'compiler/intel/13.0.1'
+#module = ''
 
 #TORQUE will use the following email to inform details about your jobs
 email = 'fmmartin@ualberta.ca'
 
 #number of processors to use
-nproc = 20
+nproc = 100
 
 #trajectories per processor
 tpp = 5000
@@ -21,7 +21,7 @@ tpp = 5000
 timestep = '5d-5'
 
 #Wall time
-walltime = '1:00:00'
+walltime = '24:00:00'
 
 #Model stuff
 
@@ -38,7 +38,6 @@ omega = 260
 
 #coupled vibration frequency
 vibomega = 37.7
-nproc = 200
 
 #trajectories per processor
 tpp = 5000
@@ -65,9 +64,9 @@ omega = 260
 vibomega = 37.7
 
 #basis functions used
-g = 40  
-b = 40  
-d = 40  
+g = 45  
+b = 45  
+d = 45  
 
 #delta
 delta = 1
