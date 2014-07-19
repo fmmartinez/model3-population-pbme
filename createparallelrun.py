@@ -211,4 +211,5 @@ for i in range(0,nproc):
 #copy executables
 for i in range(0,nproc):
 	shutil.copy2('a.out',dirs[i])
+	shutil.copy2('merge.out',dirs[i])
 #	shutil.copy2('m_vib.mod',dirs[i])
