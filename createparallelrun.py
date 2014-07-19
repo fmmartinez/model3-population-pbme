@@ -39,30 +39,6 @@ omega = 260
 #coupled vibration frequency
 vibomega = 37.7
 
-#trajectories per processor
-tpp = 5000
-
-timestep = '5d-5'
-
-#Wall time
-walltime = '1:00:00'
-
-#Model stuff
-
-#energies
-eg = 0
-eb = 240
-ed = 240
-
-#laser thingies
-e0 = 0.9
-time = 0.15
-tau = 0.045
-omega = 260
-
-#coupled vibration frequency
-vibomega = 37.7
-
 #basis functions used
 g = 45  
 b = 45  
