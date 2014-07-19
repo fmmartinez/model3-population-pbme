@@ -1,9 +1,9 @@
 program mergedata
 implicit none
 
-character(len=15) :: n,fname
+character(len=17) :: n,fname
 
-integer :: i,ib,t
+integer :: i,ib,t,nbt
 
 real(8),dimension(1:4001) :: pop1,pop2,pop3,pop,m1,m2,m3,mt
 
@@ -12,19 +12,28 @@ m1 = 0d0
 m2 = 0d0
 m3 = 0d0
 
-do i = 1, 10
-   write(n,'(i2)') i-1
+write(*,*) "number of blocks of trajectories"
+read(*,*) nbt
+if (nbt > 999) then
+   print *, "too many blocks"
+   stop
+end if
+
+do i = 1, nbt
+   write(n,'(i3)') i-1
 
    if (i <= 10) then
       write(n,'(i1)') i - 1
-      fname = 'map-0'//trim(n)//'/temp.out'
-   else
+      fname = 'part-00'//trim(n)//'/temp.out'
+   elseif (i <= 100) then
       write(n,'(i2)') i - 1
-      fname = 'map-'//trim(n)//'/temp.out'
+      fname = 'part-0'//trim(n)//'/temp.out'
+   else
+      write(n,'(i3)') i - 1
+      fname = 'part-'//trim(n)//'/temp.out'
    end if
 
-print *, fname
-
+!print *, fname
    open (11,file=fname)
    
    do ib = 1, 4001
