@@ -40,9 +40,9 @@ omega = 260
 vibomega = 37.7
 
 #basis functions used
-g = 45  
-b = 45  
-d = 45  
+g = 5  
+b = 5  
+d = 5  
 
 #delta
 delta = 1
@@ -184,7 +184,8 @@ for i in range(0,nproc):
 
 
 #copy executables
+shutil.copy2('merge.out',gendirname)
+
 for i in range(0,nproc):
 	shutil.copy2('a.out',dirs[i])
-	shutil.copy2('merge.out',dirs[i])
 #	shutil.copy2('m_vib.mod',dirs[i])
