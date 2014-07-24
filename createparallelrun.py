@@ -83,7 +83,7 @@ if nproc > 9:
 else:
 	cpus = '00' + str(nproc)
 
-gendirname = 'p' + gpart + bpart + dpart + '-' + cpus + '/'
+gendirname = 'p' + gpart + bpart + dpart + '-' + cpus + '-d' + str(delta) + '/'
 
 #genenrate global folder
 if not(os.path.exists(gendirname)):
