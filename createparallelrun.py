@@ -13,10 +13,10 @@ module = 'compiler/intel/13.0.1'
 email = 'fmmartin@ualberta.ca'
 
 #number of processors to use
-nproc = 100
+nproc = 20
 
 #trajectories per processor
-tpp = 5000
+tpp = 25000
 
 timestep = '5d-5'
 
@@ -40,9 +40,9 @@ omega = 260
 vibomega = 37.7
 
 #basis functions used
-g = 5  
-b = 5  
-d = 5  
+g = 1  
+b = 1  
+d = 1  
 
 #delta
 delta = 1
@@ -170,7 +170,7 @@ m.append('time ./a.out < md.in\n')
 for i in range(0,nproc):
 	pbsfile = open('./' + dirs[i] + '/submit_cluster.pbs','w')
 	
-	m[2] = '#PBS -N p' + str(g) + str(b) + str(d) + '-' + str(i) + '\n'
+	m[2] = '#PBS -N p' + str(g) + str(b) + str(d) + 'd' + str(delta) + '-' + str(i) + '\n'
 	
 	if ((i == 0)|(i == nproc-1)):
 		m[6] = '#PBS -m bea\n'
