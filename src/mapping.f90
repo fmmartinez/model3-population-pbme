@@ -135,7 +135,7 @@ do i = 1, nmap
       etotal = etotal + 0.5d0*(hm(i,j)*(pm(i)*pm(j) + rm(i)*rm(j)))
    end do
 end do
-es = etotal - eb
+es = etotal - eb - tn
 end subroutine get_totalenergy_traceless
 
 subroutine get_coeff(ng,beta,omega,rm,pm,coeff)

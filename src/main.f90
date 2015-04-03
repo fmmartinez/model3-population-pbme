@@ -183,7 +183,7 @@ MC: do mcs = 1, nmcs
       
       if (mod(mcs,1000) == 0) then
          call get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal,ess,ecb)
-         write(747,'(i5,3f20.12)') it, etotal, ess, ecb
+         write(747,'(i5,4f20.12)') it, etotal, ess, ecb, tn
       end if
    end do MD
 
