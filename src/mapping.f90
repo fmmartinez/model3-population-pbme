@@ -36,8 +36,8 @@ do j = 1, n
    end do
 
    tn = trace/nmap
-   
-   f(j) = f(j) + tn
+   !for force trace is substracted, in hamiltonian the trace is added (F = -DivV)
+   f(j) = f(j) -  tn
 
    do a = 1, nmap
       do b = 1, nmap
