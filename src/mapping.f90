@@ -9,7 +9,7 @@ contains
 subroutine get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,f)
 implicit none
 
-real(8),dimension(:) :: c
+real(8),dimension(:),allocatable :: c
 real(8),dimension(:),intent(in) :: rm,pm,x
 real(8),dimension(:),intent(out) :: f
 
