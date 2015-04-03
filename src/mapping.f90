@@ -29,13 +29,13 @@ n = size(c2)
 f = 0d0
 !getting product for faster calculation
 do a = 1,nmap
-   c(a) = (rm(a)**2d0 + pm(a)**2d0)
+   c(a) = 0.5d0*(rm(a)**2d0 + pm(a)**2d0)
 end do
 
 do j = 1, n
    f(j) = -kosc(j)*x(j)
    
-   dh = (lld)*c2(j)
+   dh = (lld)*c2(j)*2d0
    
    trace = 0d0
    do a = 1, nmap
