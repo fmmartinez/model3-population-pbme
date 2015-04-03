@@ -109,14 +109,14 @@ end do
 
 end subroutine get_totalenergy
 
-subroutine get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal)
+subroutine get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal,es,eb)
 implicit none
 
 integer :: i,j,n
 integer,intent(in) :: nmap
 
 real(8),intent(in) :: tn
-real(8),intent(out) :: etotal
+real(8),intent(out) :: etotal,es,eb
 real(8),dimension(:),intent(in) :: x,p,kosc,rm,pm
 real(8),dimension(:,:),intent(in) :: hm
 
@@ -127,6 +127,7 @@ etotal = 0d0
 do i = 1, n
    etotal = etotal + 0.5d0*(p(i)**2 + kosc(i)*x(i)**2)
 end do
+eb = etotal
 !mapping part
 etotal = etotal + tn
 do i = 1, nmap
@@ -134,7 +135,7 @@ do i = 1, nmap
       etotal = etotal + 0.5d0*(hm(i,j)*(pm(i)*pm(j) + rm(i)*rm(j)))
    end do
 end do
-
+es = etotal - eb
 end subroutine get_totalenergy_traceless
 
 subroutine get_coeff(ng,beta,omega,rm,pm,coeff)

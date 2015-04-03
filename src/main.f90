@@ -11,7 +11,7 @@ integer :: np,nosc,nmcs,nmds,seed_dimension,bath,init,mcs,it,is,ib
 !integer,dimension(:),allocatable :: seed
 
 real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,check,vomega
-real(8) :: dt2,uj,qbeta,coeff,lambdacheck,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn
+real(8) :: dt2,uj,qbeta,coeff,lambdacheck,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
 real(8),dimension(:),allocatable :: ome,c2,kosc,pop,pop1,pop2,pop3,x,p,fx,rm,pm,facn,popt
 real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
 real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
@@ -182,8 +182,8 @@ MC: do mcs = 1, nmcs
       pop3(ib) = pop3(ib) + (fact3)
       
       if (mod(mcs,1000) == 0) then
-         call get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal)
-         write(747,*) it, etotal
+         call get_totalenergy_traceless(nmap,hm,tn,pm,rm,x,p,kosc,etotal,ess,ecb)
+         write(747,*) it, etotal, ess, ecb
       end if
    end do MD
 
