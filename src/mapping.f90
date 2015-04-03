@@ -40,13 +40,7 @@ do j = 1, n
    f(j) = f(j) -  tn
 
    do a = 1, nmap
-      do b = 1, nmap
-         if (a == b) then
-            f(j) = f(j) - (dh(a,b) - tn)*(rm(a)*rm(b) + pm(a)*pm(b))
-         else
-            f(j) = f(j) - dh(a,b)*(rm(a)*rm(b) + pm(a)*pm(b))
-         end if
-      end do
+      f(j) = f(j) - (dh(a,a) - tn)*(rm(a)**2d0 + pm(a)**2d0)
    end do
 end do
 
