@@ -9,6 +9,7 @@ contains
 subroutine get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,f)
 implicit none
 
+real(8),dimension(:) :: c
 real(8),dimension(:),intent(in) :: rm,pm,x
 real(8),dimension(:),intent(out) :: f
 
@@ -21,10 +22,16 @@ real(8),dimension(:,:),intent(in) :: lld
 real(8),dimension(:,:),allocatable :: dh
 
 allocate(dh(1:nmap,1:nmap))
+allocate(c(1:nmap))
 
 n = size(x)
 
 f = 0d0
+!getting product for faster calculation
+do a = 1,nmap
+   c(a) = (rm(a)**2d0 + pm(a)**2d0)
+end do
+
 do j = 1, n
    f(j) = -kosc(j)*x(j)
    
@@ -40,7 +47,7 @@ do j = 1, n
    f(j) = f(j) -  tn
 
    do a = 1, nmap
-      f(j) = f(j) - (dh(a,a) - tn)*(rm(a)**2d0 + pm(a)**2d0)
+      f(j) = f(j) - (dh(a,a) - tn)*c(a)
    end do
 end do
 
