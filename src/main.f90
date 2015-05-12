@@ -22,6 +22,7 @@ call iniconc()
 call srand(seed_dimension)
 
 nmap = ng + nb + nd
+nmap = 3*nmap
 
 allocate(ome(1:nosc),c2(1:nosc),kosc(1:nosc))
 allocate(rm(1:nmap),pm(1:nmap))
@@ -68,6 +69,9 @@ dt2 = 0.5d0*dt
 !                              sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,lambda,hs)
 
 call get_preh(ng,nb,nd,eg,eb,ed,delta,vomega,hs)
+
+print fmt2, hs
+stop
 
 lld = 0d0
 do i = ng+nb+1, nmap
