@@ -574,14 +574,15 @@ integer,parameter :: ip = 10000
 character(len=2) :: c_nt
 character(len=9) :: fmt1
 
-integer :: i,j,nt
+integer :: i,j,nt,nm
 integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
 real(8),dimension(:,:),intent(out) :: hs
 
-nt = ng + nb + nd
+nm = ng + nb + nd
+nt = 3*(ng + nb + nd)
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -594,8 +595,67 @@ alpha = sqrt(omega)
 
 hs = 0d0
 
-!fill g|g
+!get overlaps between elements of harmonic oscillator basis function (phi)
 do i = 1, ng
+   do j = 1, ng
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cg,alpha)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nb
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cb,alpha)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nd
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cd,alpha)
+   end do
+end do
+
+
+do i = 1, nb
+   do j = 1, ng
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cg,alpha)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nb
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cb,alpha)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nd
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cd,alpha)
+   end do
+end do
+
+
+do i = 1, nd
+   do j = 1, ng
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cg,alpha)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nb
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cb,alpha)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nd
+      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
+   end do
+end do
+
+
+
+!fill g|g
+do i = 1, nm
    hs(i,i) = eg + (i - 0.5d0)*omega
 end do
 !fill g|b
