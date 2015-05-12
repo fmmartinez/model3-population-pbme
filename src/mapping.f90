@@ -604,54 +604,53 @@ end do
 
 do i = 1, ng
    do j = 1, nb
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cb,alpha)
+      phi_g_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cb,alpha)
    end do
 end do
 
 do i = 1, ng
    do j = 1, nd
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cd,alpha)
+      phi_g_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cd,alpha)
    end do
 end do
 
 
 do i = 1, nb
    do j = 1, ng
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cg,alpha)
+      phi_b_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cg,alpha)
    end do
 end do
 
 do i = 1, nb
    do j = 1, nb
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cb,alpha)
+      phi_b_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cb,alpha)
    end do
 end do
 
 do i = 1, nb
    do j = 1, nd
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cd,alpha)
+      phi_b_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cd,alpha)
    end do
 end do
 
 
 do i = 1, nd
    do j = 1, ng
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cg,alpha)
+      phi_d_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cg,alpha)
    end do
 end do
 
 do i = 1, nd
    do j = 1, nb
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cb,alpha)
+      phi_d_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cb,alpha)
    end do
 end do
 
 do i = 1, nd
    do j = 1, nd
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
+      phi_d_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
    end do
 end do
-
 
 
 !fill g|g
