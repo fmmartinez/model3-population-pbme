@@ -569,6 +569,10 @@ subroutine get_preh(ng,nb,nd,eg,eb,ed,delta,omega,hs)
 use m_vib
 implicit none
 
+type overlap
+   real(8),dimension(:,:),allocatable :: gg,gb,gd,bg,bb,bd,dg,db,dd
+end type overlap
+
 integer,parameter :: ip = 10000
 
 character(len=2) :: c_nt
@@ -579,17 +583,16 @@ integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
-real(8),dimension(:,:),allocatable :: phi_g_i_phi_g_j, phi_g_i_phi_b_j, phi_g_i_phi_d_j
-real(8),dimension(:,:),allocatable :: phi_b_i_phi_g_j, phi_b_i_phi_b_j, phi_b_i_phi_d_j
-real(8),dimension(:,:),allocatable :: phi_d_i_phi_g_j, phi_d_i_phi_b_j, phi_d_i_phi_d_j
 real(8),dimension(:,:),intent(out) :: hs
+
+type(overlap) :: s
 
 nm = ng + nb + nd
 nt = 3*(ng + nb + nd)
 
-allocate(phi_g_i_phi_g_j(1:nm,1:nm),phi_g_i_phi_b_j(1:nm,1:nm),phi_g_i_phi_d_j(1:nm,1:nm))
-allocate(phi_b_i_phi_g_j(1:nm,1:nm),phi_b_i_phi_b_j(1:nm,1:nm),phi_b_i_phi_d_j(1:nm,1:nm))
-allocate(phi_d_i_phi_g_j(1:nm,1:nm),phi_d_i_phi_b_j(1:nm,1:nm),phi_d_i_phi_d_j(1:nm,1:nm))
+allocate(s%gg(1:ng,1:ng),s%gb(1:ng,1:nb),s%gd(1:ng,1:nd))
+allocate(s%bg(1:nb,1:ng),s%bb(1:nb,1:nb),s%bd(1:nb,1:nd))
+allocate(s%dg(1:nd,1:ng),s%db(1:nd,1:nb),s%dd(1:nd,1:nd))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -605,57 +608,57 @@ hs = 0d0
 !get overlaps between elements of harmonic oscillator basis function (phi)
 do i = 1, ng
    do j = 1, ng
-      phi_g_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cg,alpha)
+      s%gg(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cg,alpha)
    end do
 end do
 
 do i = 1, ng
    do j = 1, nb
-      phi_g_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cb,alpha)
+      s%gb(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cb,alpha)
    end do
 end do
 
 do i = 1, ng
    do j = 1, nd
-      phi_g_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cd,alpha)
+      s%gd(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cd,alpha)
    end do
 end do
 
 
 do i = 1, nb
    do j = 1, ng
-      phi_b_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cg,alpha)
+      s%bg(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cg,alpha)
    end do
 end do
 
 do i = 1, nb
    do j = 1, nb
-      phi_b_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cb,alpha)
+      s%bb(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cb,alpha)
    end do
 end do
 
 do i = 1, nb
    do j = 1, nd
-      phi_b_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cd,alpha)
+      s%bd(i,j) = integrate_t_phiphi(ip,lint,uint,i,cb,j,cd,alpha)
    end do
 end do
 
 
 do i = 1, nd
    do j = 1, ng
-      phi_d_i_phi_g_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cg,alpha)
+      s%dg(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cg,alpha)
    end do
 end do
 
 do i = 1, nd
    do j = 1, nb
-      phi_d_i_phi_b_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cb,alpha)
+      s%db(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cb,alpha)
    end do
 end do
 
 do i = 1, nd
    do j = 1, nd
-      phi_d_i_phi_d_j(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
+      s%dd(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
    end do
 end do
 
