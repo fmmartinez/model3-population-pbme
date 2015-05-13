@@ -569,9 +569,9 @@ subroutine get_preh(ng,nb,nd,eg,eb,ed,delta,omega,hs)
 use m_vib
 implicit none
 
-type overlap
+type matrix_elements
    real(8),dimension(:,:),allocatable :: gg,gb,gd,bg,bb,bd,dg,db,dd
-end type overlap
+end type matrix_elements
 
 integer,parameter :: ip = 10000
 
@@ -585,7 +585,7 @@ real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
 real(8),dimension(:,:),intent(out) :: hs
 
-type(overlap) :: s
+type(matrix_elements) :: s,k,v
 
 nm = ng + nb + nd
 nt = 3*(ng + nb + nd)
