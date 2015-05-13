@@ -579,10 +579,17 @@ integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
+real(8),dimension(:,:),allocatable :: phi_g_i_phi_g_j, phi_g_i_phi_b_j, phi_g_i_phi_d_j
+real(8),dimension(:,:),allocatable :: phi_b_i_phi_g_j, phi_b_i_phi_b_j, phi_b_i_phi_d_j
+real(8),dimension(:,:),allocatable :: phi_d_i_phi_g_j, phi_d_i_phi_b_j, phi_d_i_phi_d_j
 real(8),dimension(:,:),intent(out) :: hs
 
 nm = ng + nb + nd
 nt = 3*(ng + nb + nd)
+
+allocate(phi_g_i_phi_g_j(1:nm,1:nm),phi_g_i_phi_b_j(1:nm,1:nm),phi_g_i_phi_d_j(1:nm,1:nm))
+allocate(phi_b_i_phi_g_j(1:nm,1:nm),phi_b_i_phi_b_j(1:nm,1:nm),phi_b_i_phi_d_j(1:nm,1:nm))
+allocate(phi_d_i_phi_g_j(1:nm,1:nm),phi_d_i_phi_b_j(1:nm,1:nm),phi_d_i_phi_d_j(1:nm,1:nm))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
