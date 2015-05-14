@@ -1002,17 +1002,17 @@ he%db(inid:lasd,inib:lasb) = delta*s%db(1:nd,1:nb)
 he%db(inid:lasd,inid:lasd) = delta*s%dd(1:nd,1:nd)
 !
 !(d|d)
-he%bb(inig:lasg,inig:lasg) = ed*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vd%gg(1:ng,1:ng)
-he%bb(inig:lasg,inib:lasb) = ed*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vd%gb(1:ng,1:nb)
-he%bb(inig:lasg,inid:lasd) = ed*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vd%gd(1:ng,1:nd)
+he%dd(inig:lasg,inig:lasg) = ed*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vd%gg(1:ng,1:ng)
+he%dd(inig:lasg,inib:lasb) = ed*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vd%gb(1:ng,1:nb)
+he%dd(inig:lasg,inid:lasd) = ed*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vd%gd(1:ng,1:nd)
 !
-he%bb(inib:lasb,inig:lasg) = ed*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vd%bg(1:nb,1:ng)
-he%bb(inib:lasb,inib:lasb) = ed*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vd%bb(1:nb,1:nb)
-he%bb(inib:lasb,inid:lasd) = ed*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vd%bd(1:nb,1:nd)
+he%dd(inib:lasb,inig:lasg) = ed*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vd%bg(1:nb,1:ng)
+he%dd(inib:lasb,inib:lasb) = ed*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vd%bb(1:nb,1:nb)
+he%dd(inib:lasb,inid:lasd) = ed*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vd%bd(1:nb,1:nd)
 !
-he%bb(inid:lasd,inig:lasg) = ed*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vd%dg(1:nd,1:ng)
-he%bb(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vd%db(1:nd,1:nb)
-he%bb(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1:nd)
+he%dd(inid:lasd,inig:lasg) = ed*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vd%dg(1:nd,1:ng)
+he%dd(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vd%db(1:nd,1:nb)
+he%dd(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1:nd)
 !
 !final accomodation
 hs(1:nm,1:nm)      = he%gg(inig:lasd,inig:lasd)
