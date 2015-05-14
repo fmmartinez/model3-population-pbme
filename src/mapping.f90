@@ -579,6 +579,7 @@ character(len=2) :: c_nt
 character(len=9) :: fmt1
 
 integer :: i,j,nt,nm
+integer :: inig,inib,inid,lasg,lasb,lasd
 integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
@@ -908,48 +909,123 @@ do i = 1, nd
 end do
 
 !construct hs using auxiliary matrices he
+!defining limits
+inig = 1
+inib = ng+1
+inid = ng+nb+1
+!
+lasg = ng
+lasb = ng+nb
+lasd = ng+nb+nd
 !(g|g)
-hs(      1:ng,1:ng      ) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
-hs(      1:ng,ng+1:ng+nb) = eg*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vg%gb(1:ng,1:nb)
-hs(      1:ng,ng+nb+1:nm) = eg*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vg%gd(1:ng,1:nd)
-
-hs(ng+1:ng+nb,1:ng      ) = eg*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vg%bg(1:nb,1:ng)
-hs(ng+1:ng+nb,ng+1:ng+nb) = eg*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vg%bb(1:nb,1:nb)
-hs(ng+1:ng+nb,ng+nb+1:nm) = eg*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vg%bd(1:nb,1:nd)
-
-hs(ng+nb+1:nm,1:ng      ) = eg*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vg%dg(1:nd,1:ng)
-hs(ng+nb+1:nm,ng+1:ng+nb) = eg*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vg%db(1:nd,1:nb)
-hs(ng+nb+1:nm,ng+nb+1:nm) = eg*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vg%dd(1:nd,1:nd)
-
+he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
+he%gg(inig:lasg,inib:lasb) = eg*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vg%gb(1:ng,1:nb)
+he%gg(inig:lasg,inid:lasd) = eg*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vg%gd(1:ng,1:nd)
+!
+he%gg(inib:lasb,inig:lasg) = eg*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vg%bg(1:nb,1:ng)
+he%gg(inib:lasb,inib:lasb) = eg*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vg%bb(1:nb,1:nb)
+he%gg(inib:lasb,inid:lasd) = eg*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vg%bd(1:nb,1:nd)
+!
+he%gg(inid:lasd,inig:lasg) = eg*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vg%dg(1:nd,1:ng)
+he%gg(inid:lasd,inib:lasb) = eg*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vg%db(1:nd,1:nb)
+he%gg(inid:lasd,inid:lasd) = eg*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vg%dd(1:nd,1:nd)
+!
 !(g|b)
-hs(      1:ng,nm+1:nm+ng      ) = s%gg(1:ng,1:ng)
-hs(      1:ng,nm+ng+1:nm+ng+nb) = s%gb(1:ng,1:nb)
-hs(      1:ng,nm+ng+nb+1:2*nm ) = s%gd(1:ng,1:nd)
-
-hs(ng+1:ng+nb,nm+1:nm+ng      ) = s%bg(1:nb,1:ng)
-hs(ng+1:ng+nb,nm+ng+1:nm+ng+nb) = s%bb(1:nb,1:nb)
-hs(ng+1:ng+nb,nm+ng+nb+1:2*nm ) = s%bd(1:nb,1:nd)
-
-hs(ng+nb+1:nm,nm+1:nm+ng      ) = s%dg(1:nd,1:ng)
-hs(ng+nb+1:nm,nm+ng+1:nm+ng+nb) = s%db(1:nd,1:nb)
-hs(ng+nb+1:nm,nm+ng+nb+1:2*nm ) = s%dd(1:nd,1:nd)
-
+he%gb(inig:lasg,inig:lasg) = s%gg(1:ng,1:ng)
+he%gb(inig:lasg,inib:lasb) = s%gb(1:ng,1:nb)
+he%gb(inig:lasg,inid:lasd) = s%gd(1:ng,1:nd)
+!
+he%gb(inib:lasb,inig:lasg) = s%bg(1:nb,1:ng)
+he%gb(inib:lasb,inib:lasb) = s%bb(1:nb,1:nb)
+he%gb(inib:lasb,inid:lasd) = s%bd(1:nb,1:nd)
+!
+he%gb(inid:lasd,inig:lasg) = s%dg(1:nd,1:ng)
+he%gb(inid:lasd,inib:lasb) = s%db(1:nd,1:nb)
+he%gb(inid:lasd,inid:lasd) = s%dd(1:nd,1:nd)
+!
 !(g|d)
-hs(      1:nm,2*nm+1:nt       ) = 0d0
-
+he%gd(inig:lasd,inig:lasd) = 0d0
+!
 !(b|g)
-hs(nm+1:nm+ng      ,      1:ng)       = s%gg(1:ng,1:ng)
-hs(nm+ng+1:nm+ng+nb,      1:ng) = s%gb(1:ng,1:nb)
-hs(nm+ng+nb+1:2*nm ,      1:ng)  = s%gd(1:ng,1:nd)
-                              
-hs(nm+1:nm+ng      ,ng+1:ng+nb)       = s%bg(1:nb,1:ng)
-hs(nm+ng+1:nm+ng+nb,ng+1:ng+nb) = s%bb(1:nb,1:nb)
-hs(nm+ng+nb+1:2*nm ,ng+1:ng+nb)  = s%bd(1:nb,1:nd)
-                              
-hs(nm+1:nm+ng      ,ng+nb+1:nm)       = s%dg(1:nd,1:ng)
-hs(nm+ng+1:nm+ng+nb,ng+nb+1:nm) = s%db(1:nd,1:nb)
-hs(nm+ng+nb+1:2*nm ,ng+nb+1:nm)  = s%dd(1:nd,1:nd)
-
+he%bg(inig:lasg,inig:lasg) = s%gg(1:ng,1:ng)
+he%bg(inig:lasg,inib:lasb) = s%gb(1:ng,1:nb)
+he%bg(inig:lasg,inid:lasd) = s%gd(1:ng,1:nd)
+!
+he%bg(inib:lasb,inig:lasg) = s%bg(1:nb,1:ng)
+he%bg(inib:lasb,inib:lasb) = s%bb(1:nb,1:nb)
+he%bg(inib:lasb,inid:lasd) = s%bd(1:nb,1:nd)
+!
+he%bg(inid:lasd,inig:lasg) = s%dg(1:nd,1:ng)
+he%bg(inid:lasd,inib:lasb) = s%db(1:nd,1:nb)
+he%bg(inid:lasd,inid:lasd) = s%dd(1:nd,1:nd)
+!
+!(b|b)
+he%bb(inig:lasg,inig:lasg) = eb*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vb%gg(1:ng,1:ng)
+he%bb(inig:lasg,inib:lasb) = eb*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vb%gb(1:ng,1:nb)
+he%bb(inig:lasg,inid:lasd) = eb*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vb%gd(1:ng,1:nd)
+!
+he%bb(inib:lasb,inig:lasg) = eb*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vb%bg(1:nb,1:ng)
+he%bb(inib:lasb,inib:lasb) = eb*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vb%bb(1:nb,1:nb)
+he%bb(inib:lasb,inid:lasd) = eb*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vb%bd(1:nb,1:nd)
+!
+he%bb(inid:lasd,inig:lasg) = eb*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vb%dg(1:nd,1:ng)
+he%bb(inid:lasd,inib:lasb) = eb*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vb%db(1:nd,1:nb)
+he%bb(inid:lasd,inid:lasd) = eb*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vb%dd(1:nd,1:nd)
+!
+!(b|d)
+he%bd(inig:lasg,inig:lasg) = delta*s%gg(1:ng,1:ng)
+he%bd(inig:lasg,inib:lasb) = delta*s%gb(1:ng,1:nb)
+he%bd(inig:lasg,inid:lasd) = delta*s%gd(1:ng,1:nd)
+!
+he%bd(inib:lasb,inig:lasg) = delta*s%bg(1:nb,1:ng)
+he%bd(inib:lasb,inib:lasb) = delta*s%bb(1:nb,1:nb)
+he%bd(inib:lasb,inid:lasd) = delta*s%bd(1:nb,1:nd)
+!
+he%bd(inid:lasd,inig:lasg) = delta*s%dg(1:nd,1:ng)
+he%bd(inid:lasd,inib:lasb) = delta*s%db(1:nd,1:nb)
+he%bd(inid:lasd,inid:lasd) = delta*s%dd(1:nd,1:nd)
+!
+!(d|g)
+he%dg(inig:lasd,inig:lasd) = 0d0
+!
+!(d|b)
+he%db(inig:lasg,inig:lasg) = delta*s%gg(1:ng,1:ng)
+he%db(inig:lasg,inib:lasb) = delta*s%gb(1:ng,1:nb)
+he%db(inig:lasg,inid:lasd) = delta*s%gd(1:ng,1:nd)
+!
+he%db(inib:lasb,inig:lasg) = delta*s%bg(1:nb,1:ng)
+he%db(inib:lasb,inib:lasb) = delta*s%bb(1:nb,1:nb)
+he%db(inib:lasb,inid:lasd) = delta*s%bd(1:nb,1:nd)
+!
+he%db(inid:lasd,inig:lasg) = delta*s%dg(1:nd,1:ng)
+he%db(inid:lasd,inib:lasb) = delta*s%db(1:nd,1:nb)
+he%db(inid:lasd,inid:lasd) = delta*s%dd(1:nd,1:nd)
+!
+!(d|d)
+he%bb(inig:lasg,inig:lasg) = ed*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vd%gg(1:ng,1:ng)
+he%bb(inig:lasg,inib:lasb) = ed*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vd%gb(1:ng,1:nb)
+he%bb(inig:lasg,inid:lasd) = ed*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vd%gd(1:ng,1:nd)
+!
+he%bb(inib:lasb,inig:lasg) = ed*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vd%bg(1:nb,1:ng)
+he%bb(inib:lasb,inib:lasb) = ed*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vd%bb(1:nb,1:nb)
+he%bb(inib:lasb,inid:lasd) = ed*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vd%bd(1:nb,1:nd)
+!
+he%bb(inid:lasd,inig:lasg) = ed*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vd%dg(1:nd,1:ng)
+he%bb(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vd%db(1:nd,1:nb)
+he%bb(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1:nd)
+!
+!final accomodation
+hs(1:nm,1:nm) = he%gg(inig:lasd)
+hs(1:nm,nm+1:2*nm) = he%gb(inig:lasd)
+hs(1:nm,2*nm+1:nt) = he%gd(inig:lasd)
+!
+hs(nm+1:2*nm,1:nm) = he%bg(inig:lasd)
+hs(nm+1:2*nm,nm+1:2*nm) = he%bb(inig:lasd)
+hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd)
+!
+hs(2*nm+1:nt,1:nm) = he%dg(inig:lasd)
+hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd)
+hs(2*nm+1:nt,2*nm+1,nt) = he%dd(inig:lasd)
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
