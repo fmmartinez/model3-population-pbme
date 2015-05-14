@@ -585,7 +585,7 @@ real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
 real(8),dimension(:,:),intent(out) :: hs
 
-type(matrix_elements) :: s,k,v
+type(matrix_elements) :: s,k,vg,vb,vd
 
 nm = ng + nb + nd
 nt = 3*(ng + nb + nd)
@@ -593,6 +593,20 @@ nt = 3*(ng + nb + nd)
 allocate(s%gg(1:ng,1:ng),s%gb(1:ng,1:nb),s%gd(1:ng,1:nd))
 allocate(s%bg(1:nb,1:ng),s%bb(1:nb,1:nb),s%bd(1:nb,1:nd))
 allocate(s%dg(1:nd,1:ng),s%db(1:nd,1:nb),s%dd(1:nd,1:nd))
+
+allocate(k%gg(1:ng,1:ng),k%gb(1:ng,1:nb),k%gd(1:ng,1:nd))
+allocate(k%bg(1:nb,1:ng),k%bb(1:nb,1:nb),k%bd(1:nb,1:nd))
+allocate(k%dg(1:nd,1:ng),k%db(1:nd,1:nb),k%dd(1:nd,1:nd))
+
+allocate(vg%gg(1:ng,1:ng),vg%gb(1:ng,1:nb),vg%gd(1:ng,1:nd))
+allocate(vg%bg(1:nb,1:ng),vg%bb(1:nb,1:nb),vg%bd(1:nb,1:nd))
+allocate(vg%dg(1:nd,1:ng),vg%db(1:nd,1:nb),vg%dd(1:nd,1:nd))
+allocate(vb%gg(1:ng,1:ng),vb%gb(1:ng,1:nb),vb%gd(1:ng,1:nd))
+allocate(vb%bg(1:nb,1:ng),vb%bb(1:nb,1:nb),vb%bd(1:nb,1:nd))
+allocate(vb%dg(1:nd,1:ng),vb%db(1:nd,1:nb),vb%dd(1:nd,1:nd))
+allocate(vd%gg(1:ng,1:ng),vd%gb(1:ng,1:nb),vd%gd(1:ng,1:nd))
+allocate(vd%bg(1:nb,1:ng),vd%bb(1:nb,1:nb),vd%bd(1:nb,1:nd))
+allocate(vd%dg(1:nd,1:ng),vd%db(1:nd,1:nb),vd%dd(1:nd,1:nd))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -605,7 +619,7 @@ alpha = sqrt(omega)
 
 hs = 0d0
 
-!get overlaps between elements of harmonic oscillator basis function (phi)
+!get overlaps matrix elements of harmonic oscillator basis function (phi|phi)
 do i = 1, ng
    do j = 1, ng
       s%gg(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j,cg,alpha)
@@ -661,6 +675,237 @@ do i = 1, nd
       s%dd(i,j) = integrate_t_phiphi(ip,lint,uint,i,cd,j,cd,alpha)
    end do
 end do
+
+!get kinetic matrix elements of harmonic oscillator basis function (phi|d2|phi)
+do i = 1, ng
+   do j = 1, ng
+      k%gg(i,j) = integrate_t_phid2p(ip,lint,uint,i,cg,j,cg,alpha)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nb
+      k%gb(i,j) = integrate_t_phid2p(ip,lint,uint,i,cg,j,cb,alpha)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nd
+      k%gd(i,j) = integrate_t_phid2p(ip,lint,uint,i,cg,j,cd,alpha)
+   end do
+end do
+
+
+do i = 1, nb
+   do j = 1, ng
+      k%bg(i,j) = integrate_t_phid2p(ip,lint,uint,i,cb,j,cg,alpha)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nb
+      k%bb(i,j) = integrate_t_phid2p(ip,lint,uint,i,cb,j,cb,alpha)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nd
+      k%bd(i,j) = integrate_t_phid2p(ip,lint,uint,i,cb,j,cd,alpha)
+   end do
+end do
+
+
+do i = 1, nd
+   do j = 1, ng
+      k%dg(i,j) = integrate_t_phid2p(ip,lint,uint,i,cd,j,cg,alpha)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nb
+      k%db(i,j) = integrate_t_phid2p(ip,lint,uint,i,cd,j,cb,alpha)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nd
+      k%dd(i,j) = integrate_t_phid2p(ip,lint,uint,i,cd,j,cd,alpha)
+   end do
+end do
+
+!get potential matrix elements of harmonic oscillator basis function (phi|v|phi)
+!vg
+do i = 1, ng
+   do j = 1, ng
+      vg%gg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cg,alpha,cg)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nb
+      vg%gb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cb,alpha,cg)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nd
+      vg%gd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cd,alpha,cg)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, ng
+      vg%bg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cg,alpha,cg)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nb
+      vg%bb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cb,alpha,cg)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nd
+      vg%bd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cd,alpha,cg)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, ng
+      vg%dg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cg,alpha,cg)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nb
+      vg%db(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cb,alpha,cg)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nd
+      vg%dd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cd,alpha,cg)
+   end do
+end do
+
+!vb
+do i = 1, ng
+   do j = 1, ng
+      vb%gg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cg,alpha,cb)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nb
+      vb%gb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cb,alpha,cb)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nd
+      vb%gd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cd,alpha,cb)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, ng
+      vb%bg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cg,alpha,cb)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nb
+      vb%bb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cb,alpha,cb)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nd
+      vb%bd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cd,alpha,cb)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, ng
+      vb%dg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cg,alpha,cb)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nb
+      vb%db(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cb,alpha,cb)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nd
+      vb%dd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cd,alpha,cb)
+   end do
+end do
+
+!vd
+do i = 1, ng
+   do j = 1, ng
+      vd%gg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cg,alpha,cd)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nb
+      vd%gb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cb,alpha,cd)
+   end do
+end do
+
+do i = 1, ng
+   do j = 1, nd
+      vd%gd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cg,j,cd,alpha,cd)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, ng
+      vd%bg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cg,alpha,cd)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nb
+      vd%bb(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cb,alpha,cd)
+   end do
+end do
+
+do i = 1, nb
+   do j = 1, nd
+      vd%bd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cb,j,cd,alpha,cd)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, ng
+      vd%dg(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cg,alpha,cd)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nb
+      vd%db(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cb,alpha,cd)
+   end do
+end do
+
+do i = 1, nd
+   do j = 1, nd
+      vd%dd(i,j) = integrate_t_pqcsqp(ip,lint,uint,i,cd,j,cd,alpha,cd)
+   end do
+end do
+
+
+
+
+
+
+
+
 
 
 !fill g|g
