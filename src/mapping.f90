@@ -899,55 +899,49 @@ do i = 1, nd
    end do
 end do
 
+!construct hs
+!(g|g)
+hs(      1:ng,1:ng      ) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
+hs(      1:ng,ng+1:ng+nb) = eg*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vg%gb(1:ng,1:nb)
+hs(      1:ng,ng+nb+1:nm) = eg*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vg%gd(1:ng,1:nd)
 
+hs(ng+1:ng+nb,1:ng      ) = eg*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vg%bg(1:nb,1:ng)
+hs(ng+1:ng+nb,ng+1:ng+nb) = eg*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vg%bb(1:nb,1:nb)
+hs(ng+1:ng+nb,ng+nb+1:nm) = eg*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vg%bd(1:nb,1:nd)
 
+hs(ng+nb+1:nm,1:ng      ) = eg*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vg%dg(1:nd,1:ng)
+hs(ng+nb+1:nm,ng+1:ng+nb) = eg*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vg%db(1:nd,1:nb)
+hs(ng+nb+1:nm,ng+nb+1:nm) = eg*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vg%dd(1:nd,1:nd)
 
+!(g|b)
+hs(      1:ng,nm+1:nm+ng      ) = s%gg(1:ng,1:ng)
+hs(      1:ng,nm+ng+1:nm+ng+nb) = s%gb(1:ng,1:nb)
+hs(      1:ng,nm+ng+nb+1:2*nm ) = s%gd(1:ng,1:nd)
 
+hs(ng+1:ng+nb,nm+1:nm+ng      ) = s%bg(1:nb,1:ng)
+hs(ng+1:ng+nb,nm+ng+1:nm+ng+nb) = s%bb(1:nb,1:nb)
+hs(ng+1:ng+nb,nm+ng+nb+1:2*nm ) = s%bd(1:nb,1:nd)
 
+hs(ng+nb+1:nm,nm+1:nm+ng      ) = s%dg(1:nd,1:ng)
+hs(ng+nb+1:nm,nm+ng+1:nm+ng+nb) = s%db(1:nd,1:nb)
+hs(ng+nb+1:nm,nm+ng+nb+1:2*nm ) = s%dd(1:nd,1:nd)
 
+!(g|d)
+hs(      1:nm,2*nm+1:nt       ) = 0d0
 
+!(b|g)
+hs(nm+1:nm+ng      ,      1:ng)       = s%gg(1:ng,1:ng)
+hs(nm+ng+1:nm+ng+nb,      1:ng) = s%gb(1:ng,1:nb)
+hs(nm+ng+nb+1:2*nm ,      1:ng)  = s%gd(1:ng,1:nd)
+                              
+hs(nm+1:nm+ng      ,ng+1:ng+nb)       = s%bg(1:nb,1:ng)
+hs(nm+ng+1:nm+ng+nb,ng+1:ng+nb) = s%bb(1:nb,1:nb)
+hs(nm+ng+nb+1:2*nm ,ng+1:ng+nb)  = s%bd(1:nb,1:nd)
+                              
+hs(nm+1:nm+ng      ,ng+nb+1:nm)       = s%dg(1:nd,1:ng)
+hs(nm+ng+1:nm+ng+nb,ng+nb+1:nm) = s%db(1:nd,1:nb)
+hs(nm+ng+nb+1:2*nm ,ng+nb+1:nm)  = s%dd(1:nd,1:nd)
 
-
-!fill g|g
-do i = 1, nm
-   hs(i,i) = eg + (i - 0.5d0)*omega
-end do
-!fill g|b
-do i = 1, ng
-   do j = ng+1, ng+nb
-      hs(i,j) = integrate_t_phiphi(ip,lint,uint,i,cg,j-ng,cb,alpha)
-   end do
-end do
-!fill g|d
-!not necessary
-!fill b|g
-do i = ng+1, ng+nb
-   do j = 1, ng
-      hs(i,j) = integrate_t_phiphi(ip,lint,uint,i-ng,cb,j,cg,alpha)
-   end do
-end do
-!fill b|b
-do i = ng+1, ng+nb
-   hs(i,i) = eb + (i -ng - 0.5d0)*omega
-end do
-!fill b|d
-do i = ng+1, ng+nb
-   do j = ng+nb+1, nt
-      hs(i,j) = delta*integrate_t_phiphi(ip,lint,uint,i-ng,cb,j-ng-nb,cd,alpha)
-   end do
-end do
-!fill d|g
-!not necessary
-!fill d|b
-do i = ng+nb+1, nt
-   do j = ng+1, ng+nb
-      hs(i,j) = delta*integrate_t_phiphi(ip,lint,uint,i-ng-nb,cd,j-ng,cb,alpha)
-   end do
-end do
-!fill d|d
-do i = ng+nb+1, nt
-   hs(i,i) = ed + (i -ng -nb - 0.5d0)*omega
-end do
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
