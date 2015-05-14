@@ -585,7 +585,7 @@ real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
 real(8),dimension(:,:),intent(out) :: hs
 
-type(matrix_elements) :: s,k,vg,vb,vd
+type(matrix_elements) :: s,k,vg,vb,vd,he,se
 
 nm = ng + nb + nd
 nt = 3*(ng + nb + nd)
@@ -607,6 +607,14 @@ allocate(vb%dg(1:nd,1:ng),vb%db(1:nd,1:nb),vb%dd(1:nd,1:nd))
 allocate(vd%gg(1:ng,1:ng),vd%gb(1:ng,1:nb),vd%gd(1:ng,1:nd))
 allocate(vd%bg(1:nb,1:ng),vd%bb(1:nb,1:nb),vd%bd(1:nb,1:nd))
 allocate(vd%dg(1:nd,1:ng),vd%db(1:nd,1:nb),vd%dd(1:nd,1:nd))
+
+allocate(he%gg(1:nm,1:nm),he%gb(1:nm,1:nm),he%gd(1:nm,1:nm))
+allocate(he%bg(1:nm,1:nm),he%bb(1:nm,1:nm),he%bd(1:nm,1:nm))
+allocate(he%dg(1:nm,1:nm),he%db(1:nm,1:nm),he%dd(1:nm,1:nm))
+
+allocate(se%gg(1:nm,1:nm),se%gb(1:nm,1:nm),se%gd(1:nm,1:nm))
+allocate(se%bg(1:nm,1:nm),se%bb(1:nm,1:nm),se%bd(1:nm,1:nm))
+allocate(se%dg(1:nm,1:nm),se%db(1:nm,1:nm),se%dd(1:nm,1:nm))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -899,7 +907,7 @@ do i = 1, nd
    end do
 end do
 
-!construct hs
+!construct hs using auxiliary matrices he
 !(g|g)
 hs(      1:ng,1:ng      ) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
 hs(      1:ng,ng+1:ng+nb) = eg*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vg%gb(1:ng,1:nb)
