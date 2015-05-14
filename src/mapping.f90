@@ -584,6 +584,8 @@ integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
+real(8),dimension(:), allocatable :: w
+real(8),dimension(:,:),allocatable :: ss
 real(8),dimension(:,:),intent(out) :: hs
 
 type(matrix_elements) :: s,k,vg,vb,vd,he,se
@@ -616,6 +618,9 @@ allocate(he%dg(1:nm,1:nm),he%db(1:nm,1:nm),he%dd(1:nm,1:nm))
 allocate(se%gg(1:nm,1:nm),se%gb(1:nm,1:nm),se%gd(1:nm,1:nm))
 allocate(se%bg(1:nm,1:nm),se%bb(1:nm,1:nm),se%bd(1:nm,1:nm))
 allocate(se%dg(1:nm,1:nm),se%db(1:nm,1:nm),se%dd(1:nm,1:nm))
+
+allocate(ss(1:nt,1:nt))
+allocate(w(1:nt))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -1026,6 +1031,34 @@ hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd,inig:lasd)
 hs(2*nm+1:nt,1:nm)      = he%dg(inig:lasd,inig:lasd)
 hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd,inig:lasd)
 hs(2*nm+1:nt,2*nm+1:nt) = he%dd(inig:lasd,inig:lasd)
+!
+!overlap
+!overlap only exists in same electronic states
+se%gg(inig:lasg,inig:lasg) = s%gg(1:ng,1:ng)
+se%gg(inig:lasg,inib:lasb) = s%gb(1:ng,1:nb)
+se%gg(inig:lasg,inid:lasd) = s%gd(1:ng,1:nd)
+!
+se%gg(inib:lasb,inig:lasg) = s%bg(1:nb,1:ng)
+se%gg(inib:lasb,inib:lasb) = s%bb(1:nb,1:nb)
+se%gg(inib:lasb,inid:lasd) = s%bd(1:nb,1:nd)
+!
+se%gg(inid:lasd,inig:lasg) = s%dg(1:nd,1:ng)
+se%gg(inid:lasd,inib:lasb) = s%db(1:nd,1:nb)
+se%gg(inid:lasd,inid:lasd) = s%dd(1:nd,1:nd)
+!
+
+!expanded overlap
+ss(1:nm,1:nm)      = se%gg(inig:lasd,inig:lasd)
+ss(1:nm,nm+1:2*nm) = 0d0
+ss(1:nm,2*nm+1:nt) = 0d0
+!
+ss(nm+1:2*nm,1:nm)      = 0d0
+ss(nm+1:2*nm,nm+1:2*nm) = se%gg(inig:lasd,inig:lasd)
+ss(nm+1:2*nm,2*nm+1:nt) = 0d0
+!
+ss(2*nm+1:nt,1:nm)      = 0d0
+ss(2*nm+1:nt,nm+1:2*nm) = 0d0
+ss(2*nm+1:nt,2*nm+1:nt) = se%gg(inig:lasd,inig:lasd)
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
@@ -1035,8 +1068,13 @@ end if
 
 fmt1 = '('//trim(c_nt)//'f10.5)'
 
-!print fmt1, hs
+print fmt1, hs
+print *, 'lel'
+print fmt1, ss
 
+call sygv(hs,ss,w,1,'V','U',info)
+
+stop
 end subroutine get_preh
 
 
