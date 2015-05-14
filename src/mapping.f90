@@ -1025,7 +1025,7 @@ hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd,inig:lasd)
 !
 hs(2*nm+1:nt,1:nm)      = he%dg(inig:lasd,inig:lasd)
 hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd,inig:lasd)
-hs(2*nm+1:nt,2*nm+1,nt) = he%dd(inig:lasd,inig:lasd)
+hs(2*nm+1:nt,2*nm+1:nt) = he%dd(inig:lasd,inig:lasd)
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
