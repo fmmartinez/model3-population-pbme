@@ -1015,17 +1015,17 @@ he%bb(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vd%db(1:nd,1
 he%bb(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1:nd)
 !
 !final accomodation
-hs(1:nm,1:nm) = he%gg(inig:lasd)
-hs(1:nm,nm+1:2*nm) = he%gb(inig:lasd)
-hs(1:nm,2*nm+1:nt) = he%gd(inig:lasd)
+hs(1:nm,1:nm)      = he%gg(inig:lasd,inig:lasd)
+hs(1:nm,nm+1:2*nm) = he%gb(inig:lasd,inig:lasd)
+hs(1:nm,2*nm+1:nt) = he%gd(inig:lasd,inig:lasd)
 !
-hs(nm+1:2*nm,1:nm) = he%bg(inig:lasd)
-hs(nm+1:2*nm,nm+1:2*nm) = he%bb(inig:lasd)
-hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd)
+hs(nm+1:2*nm,1:nm)      = he%bg(inig:lasd,inig:lasd)
+hs(nm+1:2*nm,nm+1:2*nm) = he%bb(inig:lasd,inig:lasd)
+hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd,inig:lasd)
 !
-hs(2*nm+1:nt,1:nm) = he%dg(inig:lasd)
-hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd)
-hs(2*nm+1:nt,2*nm+1,nt) = he%dd(inig:lasd)
+hs(2*nm+1:nt,1:nm)      = he%dg(inig:lasd,inig:lasd)
+hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd,inig:lasd)
+hs(2*nm+1:nt,2*nm+1,nt) = he%dd(inig:lasd,inig:lasd)
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
