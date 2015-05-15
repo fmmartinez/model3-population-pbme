@@ -578,13 +578,13 @@ integer,parameter :: ip = 10000
 character(len=2) :: c_nt
 character(len=9) :: fmt1
 
-integer :: i,j,nt,nm
+integer :: i,j,nt,nm,info,lwork
 integer :: inig,inib,inid,lasg,lasb,lasd
 integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
-real(8),dimension(:), allocatable :: w
+real(8),dimension(:), allocatable :: w,work
 real(8),dimension(:,:),allocatable :: ss
 real(8),dimension(:,:),intent(out) :: hs
 
@@ -621,6 +621,9 @@ allocate(se%dg(1:nm,1:nm),se%db(1:nm,1:nm),se%dd(1:nm,1:nm))
 
 allocate(ss(1:nt,1:nt))
 allocate(w(1:nt))
+
+lwork = nt*100
+allocate(work(1:lwork))
 
 cg = 0d0
 cb = 2d0*sqrt(10d0)/omega
@@ -1072,8 +1075,14 @@ print fmt1, hs
 print *, 'lel'
 print fmt1, ss
 
-call sygv(hs,ss,w,1,'V','U',info)
+call dsygv(1,'V','U',nt,hs,nt,ss,nt,w,work,lwork,info)
 
+print *, 'after diag'
+print fmt1, hs
+print *, 'lel'
+print fmt1, ss
+print *, 'lel2'
+print fmt1, w
 stop
 end subroutine get_preh
 
