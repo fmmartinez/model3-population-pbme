@@ -1024,15 +1024,15 @@ he%dd(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1
 !
 !final accomodation
 hs(1:nm,1:nm)      = he%gg(inig:lasd,inig:lasd)
-hs(1:nm,nm+1:2*nm) = he%gb(inig:lasd,inig:lasd)
-hs(1:nm,2*nm+1:nt) = he%gd(inig:lasd,inig:lasd)
+hs(1:nm,nm+1:2*nm) = 0d0!he%gb(inig:lasd,inig:lasd)
+hs(1:nm,2*nm+1:nt) = 0d0!he%gd(inig:lasd,inig:lasd)
 !
-hs(nm+1:2*nm,1:nm)      = he%bg(inig:lasd,inig:lasd)
+hs(nm+1:2*nm,1:nm)      = 0d0!he%bg(inig:lasd,inig:lasd)
 hs(nm+1:2*nm,nm+1:2*nm) = he%bb(inig:lasd,inig:lasd)
-hs(nm+1:2*nm,2*nm+1:nt) = he%bd(inig:lasd,inig:lasd)
+hs(nm+1:2*nm,2*nm+1:nt) = 0d0!he%bd(inig:lasd,inig:lasd)
 !
-hs(2*nm+1:nt,1:nm)      = he%dg(inig:lasd,inig:lasd)
-hs(2*nm+1:nt,nm+1:2*nm) = he%db(inig:lasd,inig:lasd)
+hs(2*nm+1:nt,1:nm)      = 0d0!he%dg(inig:lasd,inig:lasd)
+hs(2*nm+1:nt,nm+1:2*nm) = 0d0!he%db(inig:lasd,inig:lasd)
 hs(2*nm+1:nt,2*nm+1:nt) = he%dd(inig:lasd,inig:lasd)
 !
 !overlap
