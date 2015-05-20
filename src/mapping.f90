@@ -1049,6 +1049,8 @@ se%gg(inid:lasd,inig:lasg) = s%dg(1:nd,1:ng)
 se%gg(inid:lasd,inib:lasb) = s%db(1:nd,1:nb)
 se%gg(inid:lasd,inid:lasd) = s%dd(1:nd,1:nd)
 !
+se%bb = se%gg
+se%dd = se%gg
 
 !expanded overlap
 ss(1:nm,1:nm)      = se%gg(inig:lasd,inig:lasd)
@@ -1056,12 +1058,12 @@ ss(1:nm,nm+1:2*nm) = 0d0
 ss(1:nm,2*nm+1:nt) = 0d0
 !
 ss(nm+1:2*nm,1:nm)      = 0d0
-ss(nm+1:2*nm,nm+1:2*nm) = se%gg(inig:lasd,inig:lasd)
+ss(nm+1:2*nm,nm+1:2*nm) = se%bb(inig:lasd,inig:lasd)
 ss(nm+1:2*nm,2*nm+1:nt) = 0d0
 !
 ss(2*nm+1:nt,1:nm)      = 0d0
 ss(2*nm+1:nt,nm+1:2*nm) = 0d0
-ss(2*nm+1:nt,2*nm+1:nt) = se%gg(inig:lasd,inig:lasd)
+ss(2*nm+1:nt,2*nm+1:nt) = se%dd(inig:lasd,inig:lasd)
 
 if (nt > 9) then
    write(c_nt,'(i2)') nt
