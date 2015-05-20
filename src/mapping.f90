@@ -926,17 +926,17 @@ lasg = ng
 lasb = ng+nb
 lasd = ng+nb+nd
 !(g|g)
-he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
-he%gg(inig:lasg,inib:lasb) = eg*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vg%gb(1:ng,1:nb)
-he%gg(inig:lasg,inid:lasd) = eg*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vg%gd(1:ng,1:nd)
+he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + 0.5d0*(k%gg(1:ng,1:ng) + omega*vg%gg(1:ng,1:ng))
+he%gg(inig:lasg,inib:lasb) = eg*s%gb(1:ng,1:nb) + 0.5d0*(k%gb(1:ng,1:nb) + omega*vg%gb(1:ng,1:nb))
+he%gg(inig:lasg,inid:lasd) = eg*s%gd(1:ng,1:nd) + 0.5d0*(k%gd(1:ng,1:nd) + omega*vg%gd(1:ng,1:nd))
 !
-he%gg(inib:lasb,inig:lasg) = eg*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vg%bg(1:nb,1:ng)
-he%gg(inib:lasb,inib:lasb) = eg*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vg%bb(1:nb,1:nb)
-he%gg(inib:lasb,inid:lasd) = eg*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vg%bd(1:nb,1:nd)
+he%gg(inib:lasb,inig:lasg) = eg*s%bg(1:nb,1:ng) + 0.5d0*(k%bg(1:nb,1:ng) + omega*vg%bg(1:nb,1:ng))
+he%gg(inib:lasb,inib:lasb) = eg*s%bb(1:nb,1:nb) + 0.5d0*(k%bb(1:nb,1:nb) + omega*vg%bb(1:nb,1:nb))
+he%gg(inib:lasb,inid:lasd) = eg*s%bd(1:nb,1:nd) + 0.5d0*(k%bd(1:nb,1:nd) + omega*vg%bd(1:nb,1:nd))
 !
-he%gg(inid:lasd,inig:lasg) = eg*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vg%dg(1:nd,1:ng)
-he%gg(inid:lasd,inib:lasb) = eg*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vg%db(1:nd,1:nb)
-he%gg(inid:lasd,inid:lasd) = eg*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vg%dd(1:nd,1:nd)
+he%gg(inid:lasd,inig:lasg) = eg*s%dg(1:nd,1:ng) + 0.5d0*(k%dg(1:nd,1:ng) + omega*vg%dg(1:nd,1:ng))
+he%gg(inid:lasd,inib:lasb) = eg*s%db(1:nd,1:nb) + 0.5d0*(k%db(1:nd,1:nb) + omega*vg%db(1:nd,1:nb))
+he%gg(inid:lasd,inid:lasd) = eg*s%dd(1:nd,1:nd) + 0.5d0*(k%dd(1:nd,1:nd) + omega*vg%dd(1:nd,1:nd))
 !
 !(g|b)
 he%gb(inig:lasg,inig:lasg) = s%gg(1:ng,1:ng)
@@ -968,17 +968,17 @@ he%bg(inid:lasd,inib:lasb) = s%db(1:nd,1:nb)
 he%bg(inid:lasd,inid:lasd) = s%dd(1:nd,1:nd)
 !
 !(b|b)
-he%bb(inig:lasg,inig:lasg) = eb*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vb%gg(1:ng,1:ng)
-he%bb(inig:lasg,inib:lasb) = eb*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vb%gb(1:ng,1:nb)
-he%bb(inig:lasg,inid:lasd) = eb*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vb%gd(1:ng,1:nd)
+he%bb(inig:lasg,inig:lasg) = eb*s%gg(1:ng,1:ng) + 0.5d0*(k%gg(1:ng,1:ng) + omega*vb%gg(1:ng,1:ng))
+he%bb(inig:lasg,inib:lasb) = eb*s%gb(1:ng,1:nb) + 0.5d0*(k%gb(1:ng,1:nb) + omega*vb%gb(1:ng,1:nb))
+he%bb(inig:lasg,inid:lasd) = eb*s%gd(1:ng,1:nd) + 0.5d0*(k%gd(1:ng,1:nd) + omega*vb%gd(1:ng,1:nd))
 !
-he%bb(inib:lasb,inig:lasg) = eb*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vb%bg(1:nb,1:ng)
-he%bb(inib:lasb,inib:lasb) = eb*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vb%bb(1:nb,1:nb)
-he%bb(inib:lasb,inid:lasd) = eb*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vb%bd(1:nb,1:nd)
+he%bb(inib:lasb,inig:lasg) = eb*s%bg(1:nb,1:ng) + 0.5d0*(k%bg(1:nb,1:ng) + omega*vb%bg(1:nb,1:ng))
+he%bb(inib:lasb,inib:lasb) = eb*s%bb(1:nb,1:nb) + 0.5d0*(k%bb(1:nb,1:nb) + omega*vb%bb(1:nb,1:nb))
+he%bb(inib:lasb,inid:lasd) = eb*s%bd(1:nb,1:nd) + 0.5d0*(k%bd(1:nb,1:nd) + omega*vb%bd(1:nb,1:nd))
 !
-he%bb(inid:lasd,inig:lasg) = eb*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vb%dg(1:nd,1:ng)
-he%bb(inid:lasd,inib:lasb) = eb*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vb%db(1:nd,1:nb)
-he%bb(inid:lasd,inid:lasd) = eb*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vb%dd(1:nd,1:nd)
+he%bb(inid:lasd,inig:lasg) = eb*s%dg(1:nd,1:ng) + 0.5d0*(k%dg(1:nd,1:ng) + omega*vb%dg(1:nd,1:ng))
+he%bb(inid:lasd,inib:lasb) = eb*s%db(1:nd,1:nb) + 0.5d0*(k%db(1:nd,1:nb) + omega*vb%db(1:nd,1:nb))
+he%bb(inid:lasd,inid:lasd) = eb*s%dd(1:nd,1:nd) + 0.5d0*(k%dd(1:nd,1:nd) + omega*vb%dd(1:nd,1:nd))
 !
 !(b|d)
 he%bd(inig:lasg,inig:lasg) = delta*s%gg(1:ng,1:ng)
@@ -1010,17 +1010,17 @@ he%db(inid:lasd,inib:lasb) = delta*s%db(1:nd,1:nb)
 he%db(inid:lasd,inid:lasd) = delta*s%dd(1:nd,1:nd)
 !
 !(d|d)
-he%dd(inig:lasg,inig:lasg) = ed*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vd%gg(1:ng,1:ng)
-he%dd(inig:lasg,inib:lasb) = ed*s%gb(1:ng,1:nb) + k%gb(1:ng,1:nb) + vd%gb(1:ng,1:nb)
-he%dd(inig:lasg,inid:lasd) = ed*s%gd(1:ng,1:nd) + k%gd(1:ng,1:nd) + vd%gd(1:ng,1:nd)
+he%dd(inig:lasg,inig:lasg) = ed*s%gg(1:ng,1:ng) + 0.5d0*(k%gg(1:ng,1:ng) + omega*vd%gg(1:ng,1:ng))
+he%dd(inig:lasg,inib:lasb) = ed*s%gb(1:ng,1:nb) + 0.5d0*(k%gb(1:ng,1:nb) + omega*vd%gb(1:ng,1:nb))
+he%dd(inig:lasg,inid:lasd) = ed*s%gd(1:ng,1:nd) + 0.5d0*(k%gd(1:ng,1:nd) + omega*vd%gd(1:ng,1:nd))
 !
-he%dd(inib:lasb,inig:lasg) = ed*s%bg(1:nb,1:ng) + k%bg(1:nb,1:ng) + vd%bg(1:nb,1:ng)
-he%dd(inib:lasb,inib:lasb) = ed*s%bb(1:nb,1:nb) + k%bb(1:nb,1:nb) + vd%bb(1:nb,1:nb)
-he%dd(inib:lasb,inid:lasd) = ed*s%bd(1:nb,1:nd) + k%bd(1:nb,1:nd) + vd%bd(1:nb,1:nd)
+he%dd(inib:lasb,inig:lasg) = ed*s%bg(1:nb,1:ng) + 0.5d0*(k%bg(1:nb,1:ng) + omega*vd%bg(1:nb,1:ng))
+he%dd(inib:lasb,inib:lasb) = ed*s%bb(1:nb,1:nb) + 0.5d0*(k%bb(1:nb,1:nb) + omega*vd%bb(1:nb,1:nb))
+he%dd(inib:lasb,inid:lasd) = ed*s%bd(1:nb,1:nd) + 0.5d0*(k%bd(1:nb,1:nd) + omega*vd%bd(1:nb,1:nd))
 !
-he%dd(inid:lasd,inig:lasg) = ed*s%dg(1:nd,1:ng) + k%dg(1:nd,1:ng) + vd%dg(1:nd,1:ng)
-he%dd(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + k%db(1:nd,1:nb) + vd%db(1:nd,1:nb)
-he%dd(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + k%dd(1:nd,1:nd) + vd%dd(1:nd,1:nd)
+he%dd(inid:lasd,inig:lasg) = ed*s%dg(1:nd,1:ng) + 0.5d0*(k%dg(1:nd,1:ng) + omega*vd%dg(1:nd,1:ng))
+he%dd(inid:lasd,inib:lasb) = ed*s%db(1:nd,1:nb) + 0.5d0*(k%db(1:nd,1:nb) + omega*vd%db(1:nd,1:nb))
+he%dd(inid:lasd,inid:lasd) = ed*s%dd(1:nd,1:nd) + 0.5d0*(k%dd(1:nd,1:nd) + omega*vd%dd(1:nd,1:nd))
 !
 !final accomodation
 hs(1:nm,1:nm)      = he%gg(inig:lasd,inig:lasd)
@@ -1100,6 +1100,14 @@ print *, 'independent d', info
 print fmt1, he%dd
 print fmt1, wm
 
+
+he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
+print '(5f10.5)', he%gg(inig:lasg,inig:lasg)
+print '(5f10.5)', s%gg(1:ng,1:ng)
+call dsygv(1,'V','U',ng,he%gg(1:ng,1:ng),ng,s%gg,ng,wm(1:ng),work,lwork,info)
+print *, 'confirm', info
+print '(5f10.5)', he%gg(1:ng,1:ng)
+print '(5f10.5)', wm(1:ng)
 stop
 end subroutine get_preh
 
