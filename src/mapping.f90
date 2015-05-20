@@ -1087,15 +1087,17 @@ print *, 'lel2'
 print fmt1, w
 
 
-call dsygv(1,'V','U',nm,he%gg(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
+call dsygv(1,'V','U',nm,he%gg,nm,se%gg,nm,wm,work,lwork,info)
 print *, 'independent g', info
-print fmt1, ss(1:nm,1:nm)
+print fmt1, he%gg
 print fmt1, wm
-call dsygv(1,'V','U',nm,he%bb(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
-print *, 'independent b'
+call dsygv(1,'V','U',nm,he%bb,nm,se%bb,nm,wm,work,lwork,info)
+print *, 'independent b', info
+print fmt1, he%bb
 print fmt1, wm
-call dsygv(1,'V','U',nm,he%dd(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
-print *, 'independent d'
+call dsygv(1,'V','U',nm,he%dd,nm,se%dd,nm,wm,work,lwork,info)
+print *, 'independent d', info
+print fmt1, he%dd
 print fmt1, wm
 
 stop
