@@ -584,7 +584,7 @@ integer,intent(in) :: ng,nb,nd
 
 real(8) :: cg,cb,cd,uint,lint,alpha
 real(8),intent(in) :: eg,eb,ed,delta,omega
-real(8),dimension(:), allocatable :: w,work
+real(8),dimension(:), allocatable :: w,work,wm
 real(8),dimension(:,:),allocatable :: ss
 real(8),dimension(:,:),intent(out) :: hs
 
@@ -620,7 +620,7 @@ allocate(se%bg(1:nm,1:nm),se%bb(1:nm,1:nm),se%bd(1:nm,1:nm))
 allocate(se%dg(1:nm,1:nm),se%db(1:nm,1:nm),se%dd(1:nm,1:nm))
 
 allocate(ss(1:nt,1:nt))
-allocate(w(1:nt))
+allocate(w(1:nt),wm(1:nm))
 
 lwork = nt*100
 allocate(work(1:lwork))
@@ -1083,6 +1083,19 @@ print *, 'lel'
 print fmt1, ss
 print *, 'lel2'
 print fmt1, w
+
+
+call dsygv(1,'V','U',nm,he%gg(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
+print *, 'independent g', info
+print fmt1, ss(1:nm,1:nm)
+print fmt1, wm
+call dsygv(1,'V','U',nm,he%bb(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
+print *, 'independent b'
+print fmt1, wm
+call dsygv(1,'V','U',nm,he%dd(1:nm,1:nm),nm,ss(1:nm,1:nm),nm,wm,work,lwork,info)
+print *, 'independent d'
+print fmt1, wm
+
 stop
 end subroutine get_preh
 
