@@ -1101,8 +1101,10 @@ print fmt1, he%dd
 print fmt1, wm
 
 
-he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + k%gg(1:ng,1:ng) + vg%gg(1:ng,1:ng)
+he%gg(inig:lasg,inig:lasg) = eg*s%gg(1:ng,1:ng) + 0.5d0*(k%gg(1:ng,1:ng) + omega**2*vg%gg(1:ng,1:ng))
+print *, 'hg alone'
 print '(5f10.5)', he%gg(inig:lasg,inig:lasg)
+print *, 'sg alone'
 print '(5f10.5)', s%gg(1:ng,1:ng)
 call dsygv(1,'V','U',ng,he%gg(1:ng,1:ng),ng,s%gg,ng,wm(1:ng),work,lwork,info)
 print *, 'confirm', info
