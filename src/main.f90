@@ -150,8 +150,6 @@ MC: do mcs = 1, nmcs
           a2 = a2 + 2.d0*c2(is)*x(is)
       end do
 
-!      call update_hm(nmap,ng,nb,lmd,basispc,delta,mu,et,a1,a2,kg,kb,kd,vg,vb,vd,hm)
-!      call update_hm2(nmap,ng,nb,delta,mu,et,a1,a2,hc,hm)
       call get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
       call make_hm_traceless(nmap,hm,tn)
 
