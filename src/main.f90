@@ -1,5 +1,6 @@
+include 'mkl_vsl.f90'
+
 program popmodel3
-use ifport
 use m_map
 implicit none
 

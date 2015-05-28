@@ -1,5 +1,4 @@
 module m_map
-use ifport
 implicit none
 
 real(8),parameter :: pi=3.1415926535d0
