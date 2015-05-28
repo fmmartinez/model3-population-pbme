@@ -6,12 +6,12 @@ implicit none
 character(len=2) :: c_nb,c_nt
 character(len=9) :: fmt1,fmt2
 
-integer :: a,b,i,j,ng,nb,nd,basispc,nmap,cont
+integer :: i,ng,nb,nd,nmap
 integer :: np,nosc,nmcs,nmds,seed_dimension,bath,init,mcs,it,is,ib
 !integer,dimension(:),allocatable :: seed
 
-real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,check,vomega
-real(8) :: dt2,uj,qbeta,coeff,lambdacheck,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
+real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
+real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
 real(8),dimension(:),allocatable :: ome,c2,kosc,pop,pop1,pop2,pop3,x,p,fx,rm,pm,facn,popt
 real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
 real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
@@ -64,9 +64,6 @@ pop3 = 0d0
 dt  = 2d0*pi*dt
 dt2 = 0.5d0*dt
 
-!call get_lambda_eigenvectors(ng,nb,nd,eg,eb,ed,delta,vomega,&
-!                              sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,lambda,hs)
-
 call get_preh(ng,nb,nd,eg,eb,ed,delta,vomega,hs)
 
 lld = 0d0
@@ -96,9 +93,9 @@ MC: do mcs = 1, nmcs
       pm = 0d0
    end if
    
-   call get_coeff(ng,beta,vomega,rm,pm,coeff)
+   call get_coeff(ng,rm,pm,coeff)
 
-   call get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,fx)
+   call get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,fx)
 
    ib = 1
 
@@ -132,7 +129,6 @@ MC: do mcs = 1, nmcs
          p(is) = p(is) + dt2*fx(is)
       end do
       
-!      call get_hm(nmap,ng,nb,lmd,basispc,delta,mu,et,a1,a2,kg,kb,kd,vg,vb,vd,hm)
       call get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
       call make_hm_traceless(nmap,hm,tn)
 !if (it == 500) then
@@ -151,8 +147,6 @@ MC: do mcs = 1, nmcs
           a2 = a2 + 2.d0*c2(is)*x(is)
       end do
 
-!      call update_hm(nmap,ng,nb,lmd,basispc,delta,mu,et,a1,a2,kg,kb,kd,vg,vb,vd,hm)
-!      call update_hm2(nmap,ng,nb,delta,mu,et,a1,a2,hc,hm)
       call get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
       call make_hm_traceless(nmap,hm,tn)
 
@@ -160,7 +154,7 @@ MC: do mcs = 1, nmcs
 
       call evolve_pm(nmap,dt2,hm,rm,pm)
 
-      call get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,fx)
+      call get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,fx)
       
       do is = 1, nosc
          p(is) = p(is) + dt2*fx(is)
@@ -237,8 +231,6 @@ contains
 subroutine iniconc()
 implicit none
 
-!integer :: i
-
 open (666,file='md.in')
 read(666,*)
 read(666,*) np,delta,nosc,ome_max
@@ -253,13 +245,6 @@ read(666,*) bath,init
 read(666,*)
 read(666,*) ng,nb,nd
 close(666)
-
-!call random_seed(size=seed_dimension)
-!allocate (seed(seed_dimension))
-!do i=1,seed_dimension
-!  seed(i) = 3*2**i-1
-!enddo
-!call random_seed(put=seed)
 
 end subroutine iniconc
 
