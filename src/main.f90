@@ -132,7 +132,6 @@ MC: do mcs = 1, nmcs
          p(is) = p(is) + dt2*fx(is)
       end do
       
-!      call get_hm(nmap,ng,nb,lmd,basispc,delta,mu,et,a1,a2,kg,kb,kd,vg,vb,vd,hm)
       call get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
       call make_hm_traceless(nmap,hm,tn)
 !if (it == 500) then
