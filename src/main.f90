@@ -95,7 +95,7 @@ MC: do mcs = 1, nmcs
    
    call get_coeff(ng,beta,vomega,rm,pm,coeff)
 
-   call get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,fx)
+   call get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,fx)
 
    ib = 1
 
@@ -154,7 +154,7 @@ MC: do mcs = 1, nmcs
 
       call evolve_pm(nmap,dt2,hm,rm,pm)
 
-      call get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,fx)
+      call get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,fx)
       
       do is = 1, nosc
          p(is) = p(is) + dt2*fx(is)

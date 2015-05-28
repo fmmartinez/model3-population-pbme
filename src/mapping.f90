@@ -6,15 +6,15 @@ real(8),parameter :: pi=3.1415926535d0
 
 contains
 
-subroutine get_force_traceless(nmap,ng,nb,lld,kosc,x,c2,rm,pm,f)
+subroutine get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,f)
 implicit none
 
 real(8),dimension(:),allocatable :: c
 real(8),dimension(:),intent(in) :: rm,pm,x
 real(8),dimension(:),intent(out) :: f
 
-integer :: a,b,i,j,n
-integer,intent(in) :: nmap,ng,nb
+integer :: a,j,n
+integer,intent(in) :: nmap
 
 real(8) :: trace,tn
 real(8),dimension(:),intent(in) :: kosc,c2
