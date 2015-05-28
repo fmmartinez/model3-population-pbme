@@ -138,7 +138,7 @@ end do
 es = etotal - eb - tn
 end subroutine get_totalenergy_traceless
 
-subroutine get_coeff(ng,beta,omega,rm,pm,coeff)
+subroutine get_coeff(ng,rm,pm,coeff)
 implicit none
 
 
@@ -146,7 +146,6 @@ integer :: i
 integer,intent(in) :: ng
 
 real(8) :: z
-real(8),intent(in) :: beta,omega
 real(8),intent(out) :: coeff
 real(8),dimension(:),intent(in) :: rm,pm
 real(8),dimension(:),allocatable :: exp_be,prob
@@ -158,6 +157,7 @@ z = 0d0
 do i = 1, ng
    !exp_be(i) = exp(-beta*omega*(i - 0.5d0))
    !exp_be(i) = exp(-1.44d0*(i - 0.5d0))
+   !the equation beloww corresponds to the one on commented first line on top
    exp_be(i) = exp(-2.29d-1*(i - 0.5d0))
    !z = z + exp_be(i)
 end do
@@ -277,7 +277,7 @@ end subroutine get_facts_pop_traceless
 subroutine get_facts_pop(nmap,ng,nb,coeff,rm,pm,fact1,fact2,fact3)
 implicit none
 
-integer :: a,b
+integer :: a
 integer,intent(in) :: nmap,ng,nb
 
 real(8),intent(in) :: coeff

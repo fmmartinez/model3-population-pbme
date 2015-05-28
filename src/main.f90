@@ -93,7 +93,7 @@ MC: do mcs = 1, nmcs
       pm = 0d0
    end if
    
-   call get_coeff(ng,beta,vomega,rm,pm,coeff)
+   call get_coeff(ng,rm,pm,coeff)
 
    call get_force_traceless(nmap,lld,kosc,x,c2,rm,pm,fx)
 
