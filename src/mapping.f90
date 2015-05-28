@@ -481,8 +481,6 @@ real(8),parameter :: pi2=2.0*3.141592654
 
 real(8) :: g,z1,z2
 
-!call random_number(z1)
-!call random_number(z2)
 z1 = rand()
 z2 = rand()
 g = sqrt(-2.d0*log(z1))*cos(pi2*z2)
