@@ -12,6 +12,7 @@ character(len=9) :: fmt1,fmt2
 integer :: i,ng,nb,nd,nmap
 integer :: np,nosc,nmcs,nmds,seed,bath,init,mcs,it,is,ib
 integer :: brng,errcode,method
+integer(8) :: nskip
 
 real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
 real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
@@ -20,18 +21,20 @@ real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
 real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
 real(8),dimension(:,:),allocatable :: llg,llb,llgb,llbg,lldb,llbd
 
-!initializing intel MKL implementation for generating random numbers from gaussian distribution
 type(vsl_stream_state) :: stream
-!basic generator: SIMD-oriented Fast Mersenne Twister pseudorandom number generator
-brng = VSL_BRNG_SFMT19937
-!box muller implementation for generating gaussian distribution random numbers
-method = VSL_RNG_METHOD_GAUSSIAN_BOXMULLER 
-
-errcode = vslnewstream(stream,brng,seed)
 
 call iniconc()
 
 nmap = ng + nb + nd
+!initializing intel MKL implementation for generating random numbers from gaussian distribution
+!basic generator: SIMD-oriented Fast Mersenne Twister pseudorandom number generator
+brng = VSL_BRNG_SFMT19937
+!box muller implementation for generating gaussian distribution random numbers
+method = VSL_RNG_METHOD_GAUSSIAN_BOXMULLER 
+!getting stream
+errcode = vslnewstream(stream,brng,1)
+nskip = (2*nosc+2*nmap)*nmcs*seed
+errcode = vslskipaheadstream(stream,nskip)
 
 allocate(ome(1:nosc),c2(1:nosc),kosc(1:nosc))
 allocate(rm(1:nmap),pm(1:nmap))
