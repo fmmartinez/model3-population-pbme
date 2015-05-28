@@ -1,6 +1,8 @@
 include 'mkl_vsl.f90'
 
 program popmodel3
+use mkl_vsl_type
+use mkl_vsl
 use m_map
 implicit none
 
@@ -8,8 +10,8 @@ character(len=2) :: c_nb,c_nt
 character(len=9) :: fmt1,fmt2
 
 integer :: i,ng,nb,nd,nmap
-integer :: np,nosc,nmcs,nmds,seed_dimension,bath,init,mcs,it,is,ib
-!integer,dimension(:),allocatable :: seed
+integer :: np,nosc,nmcs,nmds,seed,bath,init,mcs,it,is,ib
+integer :: brng,errcode,method
 
 real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
 real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
@@ -18,9 +20,16 @@ real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
 real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
 real(8),dimension(:,:),allocatable :: llg,llb,llgb,llbg,lldb,llbd
 
-call iniconc()
+!initializing intel MKL implementation for generating random numbers from gaussian distribution
+type(vsl_stream_state) :: stream
+!basic generator: SIMD-oriented Fast Mersenne Twister pseudorandom number generator
+brng = VSL_BRNG_SFMT19937
+!box muller implementation for generating gaussian distribution random numbers
+method = VSL_RNG_METHOD_GAUSSIAN_BOXMULLER 
 
-call srand(seed_dimension)
+errcode = vslnewstream(stream,brng,seed)
+
+call iniconc()
 
 nmap = ng + nb + nd
 
@@ -73,22 +82,24 @@ do i = ng+nb+1, nmap
 end do
 
 MC: do mcs = 1, nmcs
+   errcode = vdrnggaussian(method,stream,nosc,p,0d0,1d0)
+   errcode = vdrnggaussian(method,stream,nosc,x,0d0,1d0)
    do is=1,nosc
       uj = 0.5d0*beta*dsqrt(kosc(is))
       
       qbeta = beta/(uj/tanh(uj))
       
-      p(is) = gauss_noise2()/dsqrt(qbeta)
-      x(is) = gauss_noise2()/dsqrt(qbeta*kosc(is))
+      p(is) = p(is)/dsqrt(qbeta)
+      x(is) = x(is)/dsqrt(qbeta*kosc(is))
       
       if(bath == 1) x(is)=x(is)+c2(is)/kosc(is)
    end do
    
    if (init == 3) then
-      do i = 1, nmap
-         rm(i) = gauss_noise2()/sqrt(2d0)
-         pm(i) = gauss_noise2()/sqrt(2d0)
-      end do
+      errcode = vdrnggaussian(method,stream,nmap,rm,0d0,1d0)
+      rm = rm/sqrt(2d0)
+      errcode = vdrnggaussian(method,stream,nmap,pm,0d0,1d0)
+      pm = pm/sqrt(2d0)
    else
       rm = 0d0
       pm = 0d0
@@ -223,6 +234,8 @@ do ib = 1, nmds+1
    write(333,'(i10,4f20.9)') ib-1, pop1(ib),pop2(ib),pop3(ib),pop(ib)!/dnmcs
 end do
 
+errcode = vsldeletestream(stream)
+
 deallocate(ome,c2,kosc)
 deallocate(pop,pop1,pop2,pop3)
 deallocate(x,p)
@@ -236,7 +249,7 @@ open (666,file='md.in')
 read(666,*)
 read(666,*) np,delta,nosc,ome_max
 read(666,*)
-read(666,*) nmcs,nmds,seed_dimension,dt,lumda_d
+read(666,*) nmcs,nmds,seed,dt,lumda_d
 read(666,*)
 read(666,*) eg,eb,ed,mu,e0,beta,vomega
 read(666,*)
