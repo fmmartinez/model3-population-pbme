@@ -64,9 +64,6 @@ pop3 = 0d0
 dt  = 2d0*pi*dt
 dt2 = 0.5d0*dt
 
-!call get_lambda_eigenvectors(ng,nb,nd,eg,eb,ed,delta,vomega,&
-!                              sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,lambda,hs)
-
 call get_preh(ng,nb,nd,eg,eb,ed,delta,vomega,hs)
 
 lld = 0d0
