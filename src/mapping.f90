@@ -318,35 +318,6 @@ end if
 
 end function kronecker_delta
 
-subroutine get_force(nmap,ng,nb,lld,kosc,x,c2,rm,pm,f)
-implicit none
-
-integer :: a,b,i,j,n
-integer,intent(in) :: nmap,ng,nb
-
-real(8),dimension(:),intent(in) :: kosc,x,c2,rm,pm
-real(8),dimension(:),intent(out) :: f
-real(8),dimension(:,:),intent(in) :: lld
-
-n = size(x)
-
-f = 0d0
-do j = 1, n
-   f(j) = -kosc(j)*x(j)
-   !exclude lambdas from 1 to ng, because I know those won't contribute
-   do a = ng+1, nmap
-      do b = ng+1, nmap
-         if (a == b) then
-            f(j) = f(j) - c2(j)*lld(a,b)*(rm(a)*rm(b) + pm(a)*pm(b) - 1d0)
-         else
-            f(j) = f(j) - c2(j)*lld(a,b)*(rm(a)*rm(b) + pm(a)*pm(b))
-         end if
-      end do
-   end do
-end do
-
-end subroutine get_force
-
 subroutine get_hm2(nmap,ng,nb,mu,et,a1,a2,hs,hm)
 implicit none
 
