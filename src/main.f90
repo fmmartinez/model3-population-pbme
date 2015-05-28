@@ -6,12 +6,12 @@ implicit none
 character(len=2) :: c_nb,c_nt
 character(len=9) :: fmt1,fmt2
 
-integer :: a,b,i,j,ng,nb,nd,basispc,nmap,cont
+integer :: i,ng,nb,nd,nmap
 integer :: np,nosc,nmcs,nmds,seed_dimension,bath,init,mcs,it,is,ib
 !integer,dimension(:),allocatable :: seed
 
-real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,check,vomega
-real(8) :: dt2,uj,qbeta,coeff,lambdacheck,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
+real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
+real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
 real(8),dimension(:),allocatable :: ome,c2,kosc,pop,pop1,pop2,pop3,x,p,fx,rm,pm,facn,popt
 real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
 real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
