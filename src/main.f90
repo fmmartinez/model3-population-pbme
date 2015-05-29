@@ -16,7 +16,7 @@ integer :: brng,errcode,method
 real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
 real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
 real(8),dimension(:),allocatable :: ome,c2,kosc,pop,pop1,pop2,pop3,x,p,fx,rm,pm,facn,popt
-real(8),dimension(:,:),allocatable :: hm,lambda,popn
+real(8),dimension(:,:),allocatable :: hm,popn
 real(8),dimension(:,:),allocatable :: hs,lld
 
 type(vsl_stream_state) :: stream
@@ -39,7 +39,7 @@ allocate(lld(1:nmap,1:nmap))
 
 call iniconq_d(nosc,lumda_d,ome_max,ome,c2,kosc)
 
-allocate(popn(1:nmds+1,1:nmap),facn(1:nmap),popt(1:nmds+1))
+!allocate(popn(1:nmds+1,1:nmap),facn(1:nmap),popt(1:nmds+1))
 allocate(pop(1:nmds+1),pop1(1:nmds+1),pop2(1:nmds+1),pop3(1:nmds+1))
 allocate(x(1:nosc),p(1:nosc),fx(1:nosc))
 
@@ -227,11 +227,14 @@ do ib = 1, nmds+1
    write(333,'(i10,4f20.9)') ib-1, pop1(ib),pop2(ib),pop3(ib),pop(ib)!/dnmcs
 end do
 
+!Memory deallocations
 errcode = vsldeletestream(stream)
 
 deallocate(ome,c2,kosc)
 deallocate(pop,pop1,pop2,pop3)
-deallocate(x,p)
+deallocate(x,p,fx)
+deallocate(rm,pm)
+deallocate(hm,hs,lld)
 
 contains
 
