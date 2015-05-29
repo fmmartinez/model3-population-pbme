@@ -16,9 +16,8 @@ integer :: brng,errcode,method
 real(8) :: delta,ome_max,dt,lumda_d,eg,eb,ed,mu,e0,beta,time_j,taw_j,omega_j,vomega
 real(8) :: dt2,uj,qbeta,coeff,a1,a2,et,fact1,fact2,fact3,gaussian,etotal,tn,ess,ecb
 real(8),dimension(:),allocatable :: ome,c2,kosc,pop,pop1,pop2,pop3,x,p,fx,rm,pm,facn,popt
-real(8),dimension(:,:),allocatable :: hm,lambda,popn,ug,ub,ud,hc
-real(8),dimension(:,:),allocatable :: sgg,sgb,sgd,sbg,sbb,sbd,sdg,sdb,sdd,hs,lld
-real(8),dimension(:,:),allocatable :: llg,llb,llgb,llbg,lldb,llbd
+real(8),dimension(:,:),allocatable :: hm,lambda,popn
+real(8),dimension(:,:),allocatable :: hs,lld
 
 type(vsl_stream_state) :: stream
 
@@ -35,14 +34,8 @@ errcode = vslnewstream(stream,brng,seed)
 
 allocate(ome(1:nosc),c2(1:nosc),kosc(1:nosc))
 allocate(rm(1:nmap),pm(1:nmap))
-allocate(sgg(1:ng,1:ng),sgb(1:ng,1:nb),sgd(1:ng,1:nd))
-allocate(sbg(1:nb,1:ng),sbb(1:nb,1:nb),sbd(1:nb,1:nd))
-allocate(sdg(1:nd,1:ng),sdb(1:nd,1:nb),sdd(1:nd,1:nd))
-allocate(hm(1:nmap,1:nmap),hc(1:nmap,1:nmap),hs(1:nmap,1:nmap))
-allocate(ug(1:nmap,1:nmap),ub(1:nmap,1:nmap),ud(1:nmap,1:nmap))
-allocate(lambda(1:nmap,1:nmap),llg(1:nmap,1:nmap),llb(1:nmap,1:nmap),lld(1:nmap,1:nmap))
-allocate(llgb(1:nmap,1:nmap),llbg(1:nmap,1:nmap))
-allocate(llbd(1:nmap,1:nmap),lldb(1:nmap,1:nmap))
+allocate(hm(1:nmap,1:nmap),hs(1:nmap,1:nmap))
+allocate(lld(1:nmap,1:nmap))
 
 call iniconq_d(nosc,lumda_d,ome_max,ome,c2,kosc)
 
