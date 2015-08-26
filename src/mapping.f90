@@ -18,9 +18,9 @@ integer,intent(in) :: nmap
 real(8) :: trace,tn
 real(8),dimension(:),intent(in) :: kosc,c2
 real(8),dimension(:,:),intent(in) :: lld
-real(8),dimension(:,:),allocatable :: dh
+real(8),dimension(:,:),allocatable :: mdh
 
-allocate(dh(1:nmap,1:nmap))
+allocate(mdh(1:nmap,1:nmap))
 allocate(c(1:nmap))
 
 n = size(c2)
@@ -34,19 +34,19 @@ end do
 do j = 1, n
    f(j) = -kosc(j)*x(j)
    
-   dh = (lld)*c2(j)*2d0
+   mdh = (lld)*(-c2(j)*2d0)
    
    trace = 0d0
    do a = 1, nmap
-      trace = trace + dh(a,a)
+      trace = trace + mdh(a,a)
    end do
 
    tn = trace/nmap
    !for force trace is substracted, in hamiltonian the trace is added (F = -DivV)
-   f(j) = f(j) -  tn
+   f(j) = f(j) +  tn
 
    do a = 1, nmap
-      f(j) = f(j) - (dh(a,a) - tn)*c(a)
+      f(j) = f(j) + (mdh(a,a) - tn)*c(a)
    end do
 end do
 
